@@ -40,7 +40,7 @@ private:
 
     // QString rtspUrl = "rtsp://rtspstream:c55e63cf6d099c8a00cc7e12daed7a05@zephyr.rtsp.stream/movie";
     // QString rtspUrl = "rtsp://admin:admin123@192.168.1.63:554/mainstream";
-    QString rtspUrl = "rtsp://192.168.10.105/live/0";
+    QString rtspUrl = "rtsp://172.32.0.93/live/0";
 
 signals:
     void sendImage(QImage image);  //没获取到一帧图像 就发送此信号

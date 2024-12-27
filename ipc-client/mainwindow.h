@@ -27,23 +27,33 @@ private:
     QQueue<QImage> que;
 
     QThread *thread1;
-    QThread *thread2;
-    QThread *thread3;
-    QThread *thread4;
+    // QThread *thread2;
+    // QThread *thread3;
+    // QThread *thread4;
 
+    int camcaeWay;
 //    VideoWidget *video1;
 //    VideoWidget *video2;
 //    VideoWidget *video3;
 //    VideoWidget *video4;
 
+
+    QWidget *widgetView1;
+    QWidget *widgetView4;
+    QWidget *widgetView9;
+    QWidget *widgetView16;
+    QVector<QWidget*> widgetView4Array;
+    QVector<QWidget*> widgetView9Array;
+    QVector<QWidget*> widgetView16Array;
+            
 protected:
     void paintEvent(QPaintEvent *event) override;
 
 private slots:
     void slotGetOneImage(QImage image);
     void thread_func1();
-    void thread_func2();
-    void thread_func3();
-    void thread_func4();
+//    void thread_func2();
+//    void thread_func3();
+//    void thread_func4();
 };
 #endif // MAINWINDOW_H
