@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QImage>
 #include <QPixmap>
+#include <QThread>
 
 static struct SwsContext *img_convert_ctx = nullptr;    // 转换格式上下文
 VideoPlayer::VideoPlayer()
@@ -13,8 +14,16 @@ VideoPlayer::VideoPlayer()
         qDebug() << "videoPlayer_init error";
         return;
     }
-    start();
+    this->start();
 }
+
+void VideoPlayer::on_addViewNum_slot()
+{
+    qDebug() << "on_addViewNum_slot";
+
+
+}
+
 
 
 VideoPlayer::~VideoPlayer()

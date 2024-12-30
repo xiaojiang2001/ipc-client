@@ -44,6 +44,9 @@ private:
 
 signals:
     void sendImage(QImage image);  //没获取到一帧图像 就发送此信号
+
+public slots:
+    void on_addViewNum_slot();
 };
 
 #endif // VIDEOPLAYER_H

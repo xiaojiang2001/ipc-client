@@ -23,19 +23,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    void init_gridView();
+
     VideoPlayer *mplayer;
     QQueue<QImage> que;
-
-    QThread *thread1;
-    // QThread *thread2;
-    // QThread *thread3;
-    // QThread *thread4;
-
     int camcaeWay;
-//    VideoWidget *video1;
-//    VideoWidget *video2;
-//    VideoWidget *video3;
-//    VideoWidget *video4;
+
 
 
     QWidget *widgetView1;
@@ -45,6 +39,7 @@ private:
     QVector<QWidget*> widgetView4Array;
     QVector<QWidget*> widgetView9Array;
     QVector<QWidget*> widgetView16Array;
+    int showViewNum;
             
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -52,8 +47,15 @@ protected:
 private slots:
     void slotGetOneImage(QImage image);
     void thread_func1();
-//    void thread_func2();
-//    void thread_func3();
-//    void thread_func4();
+
+    void on_radioBtn1_clicked();
+    void on_radioBtn2_clicked();
+    void on_radioBtn3_clicked();
+    void on_radioBtn4_clicked();
+
+    void showContextMenu(const QPoint &pos);
+
+signals:
+    void addViewNum();
 };
 #endif // MAINWINDOW_H
