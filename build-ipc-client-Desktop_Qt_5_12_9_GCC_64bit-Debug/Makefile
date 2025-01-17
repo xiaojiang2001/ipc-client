@@ -54,17 +54,13 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../ipc-client/main.cpp \
 		../ipc-client/mainwindow.cpp \
-		../ipc-client/videoplayer.cpp \
-		../ipc-client/videowidget.cpp moc_mainwindow.cpp \
-		moc_videoplayer.cpp \
-		moc_videowidget.cpp
+		../ipc-client/videoplayer.cpp moc_mainwindow.cpp \
+		moc_videoplayer.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		videoplayer.o \
-		videowidget.o \
 		moc_mainwindow.o \
-		moc_videoplayer.o \
-		moc_videowidget.o
+		moc_videoplayer.o
 DIST          = /opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/common/unix.conf \
 		/opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/common/linux.conf \
@@ -260,11 +256,9 @@ DIST          = /opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/features/lex.prf \
 		../ipc-client/ipc-client.pro ../ipc-client/mainwindow.h \
-		../ipc-client/videoplayer.h \
-		../ipc-client/videowidget.h ../ipc-client/main.cpp \
+		../ipc-client/videoplayer.h ../ipc-client/main.cpp \
 		../ipc-client/mainwindow.cpp \
-		../ipc-client/videoplayer.cpp \
-		../ipc-client/videowidget.cpp
+		../ipc-client/videoplayer.cpp
 QMAKE_TARGET  = ipc-client
 DESTDIR       = 
 TARGET        = ipc-client
@@ -682,8 +676,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../ipc-client/mainwindow.h ../ipc-client/videoplayer.h ../ipc-client/videowidget.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../ipc-client/main.cpp ../ipc-client/mainwindow.cpp ../ipc-client/videoplayer.cpp ../ipc-client/videowidget.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../ipc-client/mainwindow.h ../ipc-client/videoplayer.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../ipc-client/main.cpp ../ipc-client/mainwindow.cpp ../ipc-client/videoplayer.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../ipc-client/mainwindow.ui $(DISTDIR)/
 
 
@@ -716,9 +710,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_videoplayer.cpp moc_videowidget.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_videoplayer.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_videoplayer.cpp moc_videowidget.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_videoplayer.cpp
 moc_mainwindow.cpp: ../ipc-client/mainwindow.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qmainwindow.h \
@@ -868,8 +862,6 @@ moc_mainwindow.cpp: ../ipc-client/mainwindow.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qqueue.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/QImage \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/QPaintEvent \
-		../ipc-client/videowidget.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QWidget \
 		moc_predefs.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/bin/moc
 	/opt/Qt5.12.9/5.12.9/gcc_64/bin/moc $(DEFINES) --include /home/yuanjl/ipc-client/build-ipc-client-Desktop_Qt_5_12_9_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/linux-g++ -I/home/yuanjl/ipc-client/ipc-client -I/home/yuanjl/ipc-client/ipc-client/ffmpeg/include -I/opt/Qt5.12.9/5.12.9/gcc_64/include -I/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets -I/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui -I/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../ipc-client/mainwindow.h -o moc_mainwindow.cpp
@@ -992,116 +984,6 @@ moc_videoplayer.cpp: ../ipc-client/videoplayer.h \
 		moc_predefs.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/bin/moc
 	/opt/Qt5.12.9/5.12.9/gcc_64/bin/moc $(DEFINES) --include /home/yuanjl/ipc-client/build-ipc-client-Desktop_Qt_5_12_9_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/linux-g++ -I/home/yuanjl/ipc-client/ipc-client -I/home/yuanjl/ipc-client/ipc-client/ffmpeg/include -I/opt/Qt5.12.9/5.12.9/gcc_64/include -I/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets -I/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui -I/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../ipc-client/videoplayer.h -o moc_videoplayer.cpp
-
-moc_videowidget.cpp: ../ipc-client/videowidget.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QWidget \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qwidget.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qtguiglobal.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qglobal.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qconfig.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qtcore-config.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qsystemdetection.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qprocessordetection.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qtypeinfo.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qsysinfo.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qlogging.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qflags.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qatomic.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qbasicatomic.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qgenericatomic.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qatomic_msvc.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qglobalstatic.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qmutex.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qnumeric.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qtgui-config.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qwindowdefs.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qnamespace.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qrefcount.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringliteral.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringalgorithms.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringview.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringbuilder.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qlist.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qalgorithms.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qpair.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qbytearraylist.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringlist.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qregexp.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qcoreevent.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qscopedpointer.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qmetatype.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qmargins.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpaintdevice.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qrect.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qsize.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qpoint.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpalette.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qcolor.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qrgb.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qrgba64.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qbrush.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qvector.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qmatrix.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpolygon.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qregion.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qdatastream.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qline.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qtransform.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpainterpath.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qimage.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpixelformat.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpixmap.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qsharedpointer.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qshareddata.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qhash.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qfont.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qfontmetrics.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qfontinfo.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qcursor.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qkeysequence.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qevent.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qset.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qurl.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qurlquery.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qfiledevice.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qvector2d.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qtouchdevice.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/QQueue \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qqueue.h \
-		moc_predefs.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/bin/moc
-	/opt/Qt5.12.9/5.12.9/gcc_64/bin/moc $(DEFINES) --include /home/yuanjl/ipc-client/build-ipc-client-Desktop_Qt_5_12_9_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.12.9/5.12.9/gcc_64/mkspecs/linux-g++ -I/home/yuanjl/ipc-client/ipc-client -I/home/yuanjl/ipc-client/ipc-client/ffmpeg/include -I/opt/Qt5.12.9/5.12.9/gcc_64/include -I/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets -I/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui -I/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../ipc-client/videowidget.h -o moc_videowidget.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1273,8 +1155,6 @@ main.o: ../ipc-client/main.cpp ../ipc-client/mainwindow.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qqueue.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/QImage \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/QPaintEvent \
-		../ipc-client/videowidget.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1433,8 +1313,6 @@ mainwindow.o: ../ipc-client/mainwindow.cpp ../ipc-client/mainwindow.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qqueue.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/QImage \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/QPaintEvent \
-		../ipc-client/videowidget.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QWidget \
 		ui_mainwindow.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/QVariant \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QApplication \
@@ -1444,23 +1322,33 @@ mainwindow.o: ../ipc-client/mainwindow.cpp ../ipc-client/mainwindow.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qguiapplication.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QGridLayout \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qgridlayout.h \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QHBoxLayout \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qboxlayout.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qlayout.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qboxlayout.h \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qgridlayout.h \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QLabel \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qframe.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QMenuBar \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qmenubar.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qmenu.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qaction.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QRadioButton \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qradiobutton.h \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QStatusBar \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qstatusbar.h \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QVBoxLayout \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/QDebug \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/QPainter \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpainter.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qtextoption.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpen.h
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QMenu \
+		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/QContextMenuEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../ipc-client/mainwindow.cpp
 
 videoplayer.o: ../ipc-client/videoplayer.cpp ../ipc-client/videoplayer.h \
@@ -1589,126 +1477,11 @@ videoplayer.o: ../ipc-client/videoplayer.cpp ../ipc-client/videoplayer.h \
 		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/QImage
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o videoplayer.o ../ipc-client/videoplayer.cpp
 
-videowidget.o: ../ipc-client/videowidget.cpp ../ipc-client/videowidget.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/QWidget \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qwidget.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qtguiglobal.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qglobal.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qconfig.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qtcore-config.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qsystemdetection.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qprocessordetection.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qtypeinfo.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qsysinfo.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qlogging.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qflags.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qatomic.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qbasicatomic.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qgenericatomic.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qatomic_msvc.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qglobalstatic.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qmutex.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qnumeric.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qtgui-config.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qwindowdefs.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qnamespace.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qrefcount.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringliteral.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringalgorithms.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringview.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringbuilder.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qlist.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qalgorithms.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qpair.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qbytearraylist.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringlist.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qregexp.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qcoreevent.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qscopedpointer.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qmetatype.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qmargins.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpaintdevice.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qrect.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qsize.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qpoint.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpalette.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qcolor.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qrgb.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qrgba64.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qbrush.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qvector.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qmatrix.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpolygon.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qregion.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qdatastream.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qline.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qtransform.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpainterpath.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qimage.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpixelformat.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpixmap.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qsharedpointer.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qshareddata.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qhash.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qfont.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qfontmetrics.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qfontinfo.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qcursor.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qkeysequence.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qevent.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qset.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qurl.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qurlquery.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qfiledevice.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qvector2d.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qtouchdevice.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/QQueue \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtCore/qqueue.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/QPainter \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpainter.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qtextoption.h \
-		/opt/Qt5.12.9/5.12.9/gcc_64/include/QtGui/qpen.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o videowidget.o ../ipc-client/videowidget.cpp
-
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
 moc_videoplayer.o: moc_videoplayer.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_videoplayer.o moc_videoplayer.cpp
-
-moc_videowidget.o: moc_videowidget.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_videowidget.o moc_videowidget.cpp
 
 ####### Install
 

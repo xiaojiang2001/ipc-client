@@ -5,6 +5,8 @@
 #include <QWidget>
 #include <QMenu>
 #include <QContextMenuEvent>
+#include <QDir>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,7 +18,12 @@ MainWindow::MainWindow(QWidget *parent)
     camcaeWay = 1;
     ui->radioBtn1->setChecked(true);
 
+    // 初始化queArray为16个队列
+    queArray.resize(16);
     showViewNum = 1;
+
+    m_pause_flag = false;
+
     qDebug() << "in MainWindow";
     qDebug() << "sersion: " << av_version_info();
     qDebug() << avcodec_version();
@@ -24,22 +31,61 @@ MainWindow::MainWindow(QWidget *parent)
     mplayer = new VideoPlayer();
     connect(mplayer,&VideoPlayer::sendImage, this , &MainWindow::slotGetOneImage);
 
-
-
     connect(ui->radioBtn1, &QRadioButton::clicked, this , &MainWindow::on_radioBtn1_clicked);
     connect(ui->radioBtn4, &QRadioButton::clicked, this , &MainWindow::on_radioBtn2_clicked);
     connect(ui->radioBtn9, &QRadioButton::clicked, this , &MainWindow::on_radioBtn3_clicked);
     connect(ui->radioBtn16, &QRadioButton::clicked, this , &MainWindow::on_radioBtn4_clicked);
 
     init_gridView();
+    init_control_btn();
 
-    connect(this, &MainWindow::addViewNum, mplayer, &VideoPlayer::on_addViewNum_slot);
+    // 控制按钮
+    connect(pauseBtn,   &QPushButton::clicked, this, &MainWindow::on_pauseBtn_clicked);
+    connect(playBtn,    &QPushButton::clicked, this, &MainWindow::on_replayBtn_clicked);
+    connect(photoBtn,   &QPushButton::clicked, this, &MainWindow::on_photoBtn_clicked);
+    connect(startBtn,   &QPushButton::clicked, this, &MainWindow::on_startBtn_clicked);
+    connect(stopBtn,    &QPushButton::clicked, this, &MainWindow::on_stopBtn_clicked);
+    
+    // 向播放器发送信号
+    connect(this, &MainWindow::addViewNum,  mplayer,  &VideoPlayer::on_addViewNum_slot);
+    connect(this, &MainWindow::pauseSignal, mplayer,  &VideoPlayer::on_pauseSignal_slot);
+    connect(this, &MainWindow::playSignal,  mplayer,  &VideoPlayer::on_playSignal_slot);
+    connect(this, &MainWindow::recordSignal,  mplayer,  &VideoPlayer::on_recording_slot);
+    
+    // 接收错误信号
+    connect(mplayer, &VideoPlayer::errorOccurred, this, &MainWindow::on_errorOccurred);
 }
 MainWindow::~MainWindow()
 {
     delete ui;
-}
+    delete mplayer;
 
+    // QVector<QWidget*> widgetView4Array;
+    for (auto item : widgetView4Array) {
+        delete item;
+    }
+    for (auto item : widgetView9Array) {
+        delete item;
+    }
+    for (auto item : widgetView16Array) {
+        delete item;
+    }
+
+    delete widgetView1;
+    delete widgetView4;
+    delete widgetView9;
+    delete widgetView16;
+
+    delete pauseBtn;
+    delete playBtn;
+    delete photoBtn;
+    delete startBtn;
+    delete stopBtn;
+}
+void MainWindow::on_errorOccurred(const QString &errorMessage)
+{
+    QMessageBox::warning(this, tr("Save Video"), errorMessage);
+}
 
 // 槽函数实现
 void MainWindow::showContextMenu(const QPoint &pos)
@@ -58,28 +104,24 @@ void MainWindow::showContextMenu(const QPoint &pos)
             return;
         qDebug() << "Action  selected";
         showViewNum++;
-        emit addViewNum();
+        // 创建新的播放器 并绑定接收槽函数
+        VideoPlayer *mplayer = new VideoPlayer();
+        connect(mplayer,&VideoPlayer::sendImage, this , &MainWindow::slotGetOneImage);
+        emit addViewNum(showViewNum - 1);
     } 
 }
 
-void MainWindow::slotGetOneImage(QImage image)
+void MainWindow::slotGetOneImage(int idx, QImage image)
 {
-    que.push_back(image);
+    queArray[idx].push_back(image);
     update();
 }
 
-void MainWindow::thread_func1()
-{
-   qDebug() << "in thread_func1";
-}
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-    if(que.size() <= 0)
-        return;
-    QImage img = que.dequeue();
-    if (img.size().width() <= 0)  return;
-
+    // if (img.size().width() <= 0)  
+    //     return;
 
     QPainter painter(this);
     painter.setBrush(Qt::black);
@@ -88,71 +130,54 @@ void MainWindow::paintEvent(QPaintEvent *event)
     {
         case 1:
         {
-            QRect topRect = ui->widgetTop->geometry();          // 获取 widgetTop 的几何信息
-            QRect viewRect = ui->widgetView->geometry();        // 获取 widgetView 的几何信息
-            int offsetY = topRect.height();                     // 计算 widgetView 相对于 widgetMiddle 的偏移位置 垂直偏移量
-            int x = viewRect.x();
-            int y = viewRect.y() + offsetY;                     // 计算 widgetView 在 widgetMiddle 中的实际绘制位置
-            QImage image = img.scaled(viewRect.size());         // 将图像按比例缩放成和widget1一样大小
-            painter.drawImage(x + 9, y + 9, image);             // 在 ui->widget1 上绘制图像
+            QImage img = queArray[0].dequeue();
+            paintImage(painter, widgetView1, img);
         }
         break;
         case 4:
         {
-            QRect topRect  = ui->widgetTop->geometry();          // 获取 widgetTop 的几何信息
-            QRect viewRect = ui->widgetView->geometry();         // 获取 widgetView 的几何信息
-            int x, y;
-            // i / 2  第几排
-            // i % 2  第几列
             if(showViewNum >= 4)
                 showViewNum = 4;
+            QVector<QImage> imgArray(showViewNum);
+            // QImage img = queArray[0].dequeue();
             for(int i = 0; i < showViewNum; i++)
             {
-                QRect viewRect = widgetView4Array[i]->geometry();
-                x = viewRect.width() * (i % 2) + 6 * (i % 2) + 9;
-                y = viewRect.height() * (i / 2) + topRect.height() + 6 * (i / 2) + 9;
-                QImage image = img.scaled(viewRect.size());
-                painter.drawImage(x, y, image);
+                if(queArray[i].size() > 0){
+                    imgArray[i] = queArray[i].dequeue();
+                    paintImage(painter, widgetView4Array[i], imgArray[i]);
+                }
             }
         }
         break;
 
         case 9:
         {
-            QRect topRect = ui->widgetTop->geometry();          // 获取 widgetTop 的几何信息
-            QRect viewRect =  ui->widgetView->geometry();       // 获取 widgetView 的几何信息
-            int x, y;
-            // i / 3  第几排
-            // i % 3  第几列
             if(showViewNum >= 9)
                 showViewNum = 9;
+            QVector<QImage> imgArray(showViewNum);
+            // QImage img = queArray[0].dequeue();
             for(int i = 0; i < showViewNum; i++)
             {
-                QRect viewRect = widgetView9Array[i]->geometry();
-                x = viewRect.width() * (i % 3) + 6 * (i % 3) + 9;
-                y = viewRect.height() * (i / 3) + topRect.height() + 6 * (i / 3) + 9;
-                QImage image = img.scaled(viewRect.size());
-                painter.drawImage(x, y, image);
+                if(queArray[i].size() > 0){
+                    imgArray[i] = queArray[i].dequeue();
+                    paintImage(painter, widgetView9Array[i], imgArray[i]);
+                }
             }
         }
         break;
 
         case 16:
         {
-            QRect topRect = ui->widgetTop->geometry();              // 获取 widgetTop 的几何信息
-            QRect viewRect =  ui->widgetView->geometry();           // 获取 widgetView 的几何信息
-            int x, y;
-            // i / 4 第几排
-            // i % 4  第几列
-            if(showViewNum >= 16)
+           if(showViewNum >= 16)
                 showViewNum = 16;
+            QVector<QImage> imgArray(showViewNum);
+            // QImage img = queArray[0].dequeue();
             for(int i = 0; i < showViewNum; i++)
             {
-                QRect viewRect = widgetView16Array[i]->geometry();
-                x = viewRect.width() * (i % 4) + 6 * (i % 4) + 9;
-                y = viewRect.height() * (i / 4) + topRect.height() + 6 * (i / 4) + 9;
-                QImage image = img.scaled(viewRect.size());
-                painter.drawImage(x, y, image);
+                if(queArray[i].size() > 0){
+                    imgArray[i] = queArray[i].dequeue();
+                    paintImage(painter, widgetView16Array[i], imgArray[i]);
+                }
             }
         }
         break;
@@ -163,6 +188,17 @@ void MainWindow::paintEvent(QPaintEvent *event)
     }
 }
 
+// 在某个特定的窗口上绘制图像
+void MainWindow::paintImage(QPainter &painter, QWidget* widget, QImage &img)
+{
+   if (!widget || img.isNull())
+       return;
+
+    // 获取 widget 在当前窗口中的几何信息
+    QRect widgetRect = QRect(mapFromGlobal(widget->mapToGlobal(widget->rect().topLeft())), widget->rect().size());
+    QImage image = img.scaled(widgetRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    painter.drawImage(widgetRect, image);
+}
 
 void MainWindow::init_gridView()
 {
@@ -251,6 +287,105 @@ void MainWindow::init_gridView()
     // 连接信号到槽
     connect(widgetView16, &QWidget::customContextMenuRequested, this, &MainWindow::showContextMenu);
     widgetView16->hide();
+}
+
+void MainWindow::init_control_btn()
+{
+    pauseBtn  = new QPushButton("pause",this);
+    playBtn = new QPushButton("play", this);
+    photoBtn  = new QPushButton("photo",this);
+    startBtn  = new QPushButton("start",this);
+    stopBtn  = new QPushButton("stop",this);
+
+    //设置最小值、跳转按钮大小
+    pauseBtn->setMinimumSize(35,35);
+    playBtn->setMinimumSize(35,35);
+    photoBtn->setMinimumSize(35,35);
+    startBtn->setMinimumSize(35,35);
+    stopBtn->setMinimumSize(35,35);
+
+    // 网格布局
+    QGridLayout *layout = new QGridLayout;              
+    layout->setSpacing(10);     //  设置控件之间的间隔
+    //网格不同坐标添加不同的组件
+    layout->addWidget(pauseBtn, 0, 0);
+    layout->addWidget(playBtn,  0, 1);
+    layout->addWidget(photoBtn, 1, 0);
+    layout->addWidget(startBtn, 2, 0);
+    layout->addWidget(stopBtn,  2, 1);
+
+    ui->widgetPTZ->setLayout(layout);
+}
+
+
+// 控制按钮槽函数
+void MainWindow::on_pauseBtn_clicked()
+{
+    if(m_pause_flag == true)
+        return;
+    m_pause_flag = true;
+    emit pauseSignal();
+}
+void MainWindow::on_replayBtn_clicked()
+{
+    if(m_pause_flag == false)
+        return;
+    m_pause_flag = false;
+    emit playSignal();
+}
+
+void MainWindow::on_photoBtn_clicked()
+{
+    static int i = 0;
+    if(!queArray[0].empty())
+    {
+        QImage img = queArray[0].front(); 
+        QString name = "image" + QString::number(i++) + ".jpg";
+        saveImageToJPEG(img, name);
+    }
+}
+
+void MainWindow::on_startBtn_clicked()
+{
+    emit recordSignal(1);
+}
+
+void MainWindow::on_stopBtn_clicked()
+{
+    emit recordSignal(0);
+}
+
+
+void MainWindow::saveImageToJPEG(QImage image, QString name)
+{
+    // 获取当前工作目录
+    QDir currentDir = QDir::current();
+    // 获取上一级目录
+    QDir parentDir = currentDir.cdUp() ? currentDir : QDir::root();
+    // 输出路径
+    QString outputDirPath = parentDir.filePath("output");
+
+    // 检查并创建 output 文件夹
+    QDir outputDir(outputDirPath);
+    if (!outputDir.exists()) {
+        if (!outputDir.mkpath(".")) {
+            QMessageBox::warning(this, tr("Save Image"),
+                                 tr("Failed to create output directory."));
+            return;
+        }
+    }
+    
+    // 生成文件的完整路径
+    QString fileName = outputDir.filePath(name);
+
+    // 保存图像到文件
+    if (!image.save(fileName, "JPEG")) {
+        QMessageBox::warning(this, tr("Save Image"),
+                             tr("Failed to save image to %1.").arg(fileName));
+    } else {
+        QMessageBox::information(this, tr("Save Image"),
+                                 tr("Image saved successfully to %1.").arg(fileName));
+    }
 }
 
 

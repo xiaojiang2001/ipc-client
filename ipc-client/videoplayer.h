@@ -21,13 +21,20 @@ public:
     VideoPlayer();
     ~VideoPlayer();
 
+    void on_recording_slot(int flag);
+
 protected:
     void run();
 
 private:
+    bool m_record_flag;
+    bool m_pause_flag;
     int videoPlayer_init();
+    int threadIndex;
     void decode(const AVPacket &packet);
+    int initEncoderContext();
     void clean();
+
 
     AVFormatContext *pFormatCtx;    // 上下文
     AVStream *stream;               // 视频流   由于AVFormatContext释放自动
@@ -42,11 +49,25 @@ private:
     // QString rtspUrl = "rtsp://admin:admin123@192.168.1.63:554/mainstream";
     QString rtspUrl = "rtsp://172.32.0.93/live/0";
 
+    // 编码
+    AVFormatContext *outFormatCtx;  // 编码器上下文
+    AVCodecContext *outCodecCtx;    // 编码器上下文
+    AVStream *outStream;            // 编码器流
+    AVPacket outPacket;             // 编码器包
+    AVCodec *outCodec;              // 编码器
+    int initOutput(const char *outFilename);
+    int encodeFrame(AVFrame *frame);
+    void finishOutput();
+    
+
 signals:
-    void sendImage(QImage image);  //没获取到一帧图像 就发送此信号
+    void errorOccurred(const QString &errorMessage);
+    void sendImage(int idx, QImage image);  //没获取到一帧图像 就发送此信号
 
 public slots:
-    void on_addViewNum_slot();
+    void on_addViewNum_slot(int index);
+    void on_pauseSignal_slot();
+    void on_playSignal_slot();
 };
 
 #endif // VIDEOPLAYER_H

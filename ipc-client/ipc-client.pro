@@ -18,13 +18,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    videoplayer.cpp \
-    videowidget.cpp
+    videoplayer.cpp
 
 HEADERS += \
     mainwindow.h \
-    videoplayer.h \
-    videowidget.h
+    videoplayer.h
 
 FORMS += \
     mainwindow.ui
