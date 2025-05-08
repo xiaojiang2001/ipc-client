@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[24];
-    char stringdata0[330];
+    QByteArrayData data[29];
+    char stringdata0[414];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -51,10 +51,15 @@ QT_MOC_LITERAL(16, 200, 20), // "on_replayBtn_clicked"
 QT_MOC_LITERAL(17, 221, 19), // "on_photoBtn_clicked"
 QT_MOC_LITERAL(18, 241, 19), // "on_startBtn_clicked"
 QT_MOC_LITERAL(19, 261, 18), // "on_stopBtn_clicked"
-QT_MOC_LITERAL(20, 280, 15), // "showContextMenu"
-QT_MOC_LITERAL(21, 296, 3), // "pos"
-QT_MOC_LITERAL(22, 300, 16), // "on_errorOccurred"
-QT_MOC_LITERAL(23, 317, 12) // "errorMessage"
+QT_MOC_LITERAL(20, 280, 18), // "on_led1btn_clicked"
+QT_MOC_LITERAL(21, 299, 18), // "on_led2btn_clicked"
+QT_MOC_LITERAL(22, 318, 18), // "on_led3btn_clicked"
+QT_MOC_LITERAL(23, 337, 15), // "showContextMenu"
+QT_MOC_LITERAL(24, 353, 3), // "pos"
+QT_MOC_LITERAL(25, 357, 16), // "on_errorOccurred"
+QT_MOC_LITERAL(26, 374, 12), // "errorMessage"
+QT_MOC_LITERAL(27, 387, 21), // "on_tcpReadyDateHadler"
+QT_MOC_LITERAL(28, 409, 4) // "data"
 
     },
     "MainWindow\0addViewNum\0\0index\0pauseSignal\0"
@@ -64,8 +69,11 @@ QT_MOC_LITERAL(23, 317, 12) // "errorMessage"
     "on_radioBtn3_clicked\0on_radioBtn4_clicked\0"
     "on_pauseBtn_clicked\0on_replayBtn_clicked\0"
     "on_photoBtn_clicked\0on_startBtn_clicked\0"
-    "on_stopBtn_clicked\0showContextMenu\0"
-    "pos\0on_errorOccurred\0errorMessage"
+    "on_stopBtn_clicked\0on_led1btn_clicked\0"
+    "on_led2btn_clicked\0on_led3btn_clicked\0"
+    "showContextMenu\0pos\0on_errorOccurred\0"
+    "errorMessage\0on_tcpReadyDateHadler\0"
+    "data"
 };
 #undef QT_MOC_LITERAL
 
@@ -75,7 +83,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      20,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -83,24 +91,28 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   94,    2, 0x06 /* Public */,
-       4,    0,   97,    2, 0x06 /* Public */,
-       5,    0,   98,    2, 0x06 /* Public */,
-       6,    1,   99,    2, 0x06 /* Public */,
+       1,    1,  114,    2, 0x06 /* Public */,
+       4,    0,  117,    2, 0x06 /* Public */,
+       5,    0,  118,    2, 0x06 /* Public */,
+       6,    1,  119,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       8,    2,  102,    2, 0x08 /* Private */,
-      11,    0,  107,    2, 0x08 /* Private */,
-      12,    0,  108,    2, 0x08 /* Private */,
-      13,    0,  109,    2, 0x08 /* Private */,
-      14,    0,  110,    2, 0x08 /* Private */,
-      15,    0,  111,    2, 0x08 /* Private */,
-      16,    0,  112,    2, 0x08 /* Private */,
-      17,    0,  113,    2, 0x08 /* Private */,
-      18,    0,  114,    2, 0x08 /* Private */,
-      19,    0,  115,    2, 0x08 /* Private */,
-      20,    1,  116,    2, 0x08 /* Private */,
-      22,    1,  119,    2, 0x08 /* Private */,
+       8,    2,  122,    2, 0x08 /* Private */,
+      11,    0,  127,    2, 0x08 /* Private */,
+      12,    0,  128,    2, 0x08 /* Private */,
+      13,    0,  129,    2, 0x08 /* Private */,
+      14,    0,  130,    2, 0x08 /* Private */,
+      15,    0,  131,    2, 0x08 /* Private */,
+      16,    0,  132,    2, 0x08 /* Private */,
+      17,    0,  133,    2, 0x08 /* Private */,
+      18,    0,  134,    2, 0x08 /* Private */,
+      19,    0,  135,    2, 0x08 /* Private */,
+      20,    0,  136,    2, 0x08 /* Private */,
+      21,    0,  137,    2, 0x08 /* Private */,
+      22,    0,  138,    2, 0x08 /* Private */,
+      23,    1,  139,    2, 0x08 /* Private */,
+      25,    1,  142,    2, 0x08 /* Private */,
+      27,    1,  145,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int,    3,
@@ -119,8 +131,12 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QPoint,   21,
-    QMetaType::Void, QMetaType::QString,   23,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QPoint,   24,
+    QMetaType::Void, QMetaType::QString,   26,
+    QMetaType::Void, QMetaType::QByteArray,   28,
 
        0        // eod
 };
@@ -145,8 +161,12 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 11: _t->on_photoBtn_clicked(); break;
         case 12: _t->on_startBtn_clicked(); break;
         case 13: _t->on_stopBtn_clicked(); break;
-        case 14: _t->showContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 15: _t->on_errorOccurred((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 14: _t->on_led1btn_clicked(); break;
+        case 15: _t->on_led2btn_clicked(); break;
+        case 16: _t->on_led3btn_clicked(); break;
+        case 17: _t->showContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 18: _t->on_errorOccurred((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 19: _t->on_tcpReadyDateHadler((*reinterpret_cast< const QByteArray(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -211,13 +231,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 16)
+        if (_id < 20)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 20;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 16)
+        if (_id < 20)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 16;
+        _id -= 20;
     }
     return _id;
 }

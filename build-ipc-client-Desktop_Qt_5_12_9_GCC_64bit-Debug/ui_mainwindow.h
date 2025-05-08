@@ -16,6 +16,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -33,11 +34,13 @@ public:
     QWidget *widgetView;
     QWidget *widgetPTZ;
     QWidget *widgetBotton;
+    QHBoxLayout *horizontalLayout_2;
+    QLabel *label;
     QRadioButton *radioBtn1;
     QRadioButton *radioBtn4;
     QRadioButton *radioBtn9;
     QRadioButton *radioBtn16;
-    QLabel *label;
+    QSpacerItem *horizontalSpacer;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -45,7 +48,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1114, 773);
+        MainWindow->resize(1114, 648);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout = new QVBoxLayout(centralwidget);
@@ -72,33 +75,55 @@ public:
 
         horizontalLayout->addWidget(widgetPTZ);
 
-        horizontalLayout->setStretch(0, 5);
+        horizontalLayout->setStretch(0, 4);
         horizontalLayout->setStretch(1, 1);
 
         verticalLayout->addWidget(widgetMiddle);
 
         widgetBotton = new QWidget(centralwidget);
         widgetBotton->setObjectName(QString::fromUtf8("widgetBotton"));
-        radioBtn1 = new QRadioButton(widgetBotton);
-        radioBtn1->setObjectName(QString::fromUtf8("radioBtn1"));
-        radioBtn1->setGeometry(QRect(80, 20, 51, 21));
-        radioBtn4 = new QRadioButton(widgetBotton);
-        radioBtn4->setObjectName(QString::fromUtf8("radioBtn4"));
-        radioBtn4->setGeometry(QRect(140, 20, 61, 21));
-        radioBtn9 = new QRadioButton(widgetBotton);
-        radioBtn9->setObjectName(QString::fromUtf8("radioBtn9"));
-        radioBtn9->setGeometry(QRect(220, 20, 41, 21));
-        radioBtn16 = new QRadioButton(widgetBotton);
-        radioBtn16->setObjectName(QString::fromUtf8("radioBtn16"));
-        radioBtn16->setGeometry(QRect(290, 20, 61, 21));
+        horizontalLayout_2 = new QHBoxLayout(widgetBotton);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         label = new QLabel(widgetBotton);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(0, 20, 57, 15));
+
+        horizontalLayout_2->addWidget(label);
+
+        radioBtn1 = new QRadioButton(widgetBotton);
+        radioBtn1->setObjectName(QString::fromUtf8("radioBtn1"));
+
+        horizontalLayout_2->addWidget(radioBtn1);
+
+        radioBtn4 = new QRadioButton(widgetBotton);
+        radioBtn4->setObjectName(QString::fromUtf8("radioBtn4"));
+
+        horizontalLayout_2->addWidget(radioBtn4);
+
+        radioBtn9 = new QRadioButton(widgetBotton);
+        radioBtn9->setObjectName(QString::fromUtf8("radioBtn9"));
+
+        horizontalLayout_2->addWidget(radioBtn9);
+
+        radioBtn16 = new QRadioButton(widgetBotton);
+        radioBtn16->setObjectName(QString::fromUtf8("radioBtn16"));
+
+        horizontalLayout_2->addWidget(radioBtn16);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer);
+
+        horizontalLayout_2->setStretch(0, 5);
+        horizontalLayout_2->setStretch(1, 4);
+        horizontalLayout_2->setStretch(2, 4);
+        horizontalLayout_2->setStretch(3, 4);
+        horizontalLayout_2->setStretch(4, 4);
+        horizontalLayout_2->setStretch(5, 30);
 
         verticalLayout->addWidget(widgetBotton);
 
-        verticalLayout->setStretch(0, 1);
-        verticalLayout->setStretch(1, 5);
+        verticalLayout->setStretch(0, 5);
+        verticalLayout->setStretch(1, 25);
         verticalLayout->setStretch(2, 1);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -117,11 +142,11 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        label->setText(QApplication::translate("MainWindow", "view grid", nullptr));
         radioBtn1->setText(QApplication::translate("MainWindow", "1", nullptr));
         radioBtn4->setText(QApplication::translate("MainWindow", "4", nullptr));
         radioBtn9->setText(QApplication::translate("MainWindow", "9", nullptr));
         radioBtn16->setText(QApplication::translate("MainWindow", "16", nullptr));
-        label->setText(QApplication::translate("MainWindow", "view grid", nullptr));
     } // retranslateUi
 
 };

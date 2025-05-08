@@ -7,6 +7,7 @@
 #include <QContextMenuEvent>
 #include <QDir>
 #include <QMessageBox>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,10 +15,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // this->resize(900,700);
+
+    this->resize(1200,800);
+
     camcaeWay = 1;
     ui->radioBtn1->setChecked(true);
-
+   
     // 初始化queArray为16个队列
     queArray.resize(16);
     showViewNum = 1;
@@ -38,13 +41,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     init_gridView();
     init_control_btn();
-
+    init_data_lable();
+    
     // 控制按钮
     connect(pauseBtn,   &QPushButton::clicked, this, &MainWindow::on_pauseBtn_clicked);
     connect(playBtn,    &QPushButton::clicked, this, &MainWindow::on_replayBtn_clicked);
     connect(photoBtn,   &QPushButton::clicked, this, &MainWindow::on_photoBtn_clicked);
     connect(startBtn,   &QPushButton::clicked, this, &MainWindow::on_startBtn_clicked);
     connect(stopBtn,    &QPushButton::clicked, this, &MainWindow::on_stopBtn_clicked);
+    connect(led1btn,    &QPushButton::clicked, this, &MainWindow::on_led1btn_clicked);
+    connect(led2btn,    &QPushButton::clicked, this, &MainWindow::on_led2btn_clicked);
+    connect(led3btn,    &QPushButton::clicked, this, &MainWindow::on_led3btn_clicked);
     
     // 向播放器发送信号
     connect(this, &MainWindow::addViewNum,  mplayer,  &VideoPlayer::on_addViewNum_slot);
@@ -54,6 +61,10 @@ MainWindow::MainWindow(QWidget *parent)
     
     // 接收错误信号
     connect(mplayer, &VideoPlayer::errorOccurred, this, &MainWindow::on_errorOccurred);
+
+    client = new TcpClient();
+    // 接收服务器数据
+    connect(client, &TcpClient::dataReceived, this, &MainWindow::on_tcpReadyDateHadler);
 }
 MainWindow::~MainWindow()
 {
@@ -81,7 +92,23 @@ MainWindow::~MainWindow()
     delete photoBtn;
     delete startBtn;
     delete stopBtn;
+    delete led1btn;
+    delete led2btn;
+    delete led3btn;
+
 }
+
+void MainWindow::processData(const QByteArray &data)
+{
+
+}
+
+void MainWindow::on_tcpReadyDateHadler(const QByteArray &data)
+{
+
+}
+
+
 void MainWindow::on_errorOccurred(const QString &errorMessage)
 {
     QMessageBox::warning(this, tr("Save Video"), errorMessage);
@@ -130,8 +157,11 @@ void MainWindow::paintEvent(QPaintEvent *event)
     {
         case 1:
         {
+            if (queArray[0].size() == 0)
+                return;
             QImage img = queArray[0].dequeue();
-            paintImage(painter, widgetView1, img);
+            if(img.size().width() > 0 && img.size().height() > 0)
+                paintImage(painter, widgetView1, img);
         }
         break;
         case 4:
@@ -294,27 +324,81 @@ void MainWindow::init_control_btn()
     pauseBtn  = new QPushButton("pause",this);
     playBtn = new QPushButton("play", this);
     photoBtn  = new QPushButton("photo",this);
-    startBtn  = new QPushButton("start",this);
-    stopBtn  = new QPushButton("stop",this);
+    startBtn  = new QPushButton("connect",this);
+    stopBtn  = new QPushButton("disconnect",this);
+    led1btn  = new QPushButton("led1",this);
+    led2btn  = new QPushButton("led2",this);
+    led3btn  = new QPushButton("led3",this);
 
     //设置最小值、跳转按钮大小
-    pauseBtn->setMinimumSize(35,35);
-    playBtn->setMinimumSize(35,35);
-    photoBtn->setMinimumSize(35,35);
-    startBtn->setMinimumSize(35,35);
-    stopBtn->setMinimumSize(35,35);
+    pauseBtn->setMinimumSize(50,35);
+    playBtn->setMinimumSize(50,35);
+    photoBtn->setMinimumSize(50,35);
+    startBtn->setMinimumSize(50,35);
+    stopBtn->setMinimumSize(50,35);
+    led1btn->setMinimumSize(50,35);
+    led2btn->setMinimumSize(50,35);
+    led3btn->setMinimumSize(50,35);
+
+
+    // 网格布局
+    QGridLayout *layout = new QGridLayout;              
+    layout->setSpacing(5);     //  设置控件之间的间隔
+    //网格不同坐标添加不同的组件
+    layout->addWidget(startBtn, 0, 0);
+    layout->addWidget(pauseBtn, 1, 0);
+    layout->addWidget(playBtn,  2, 0);
+    layout->addWidget(photoBtn, 3, 0);
+
+    layout->addWidget(stopBtn,  0, 1);
+    layout->addWidget(led1btn,  1, 1);
+    layout->addWidget(led2btn,  2, 1);
+    layout->addWidget(led3btn,  3, 1);
+
+
+    // layout->addWidget(startBtn, 2, 0);
+    // layout->addWidget(stopBtn,  2, 1);
+
+    ui->widgetPTZ->setLayout(layout);
+}
+
+
+
+
+void MainWindow::init_data_lable()
+{
+    label_tempature = new QLabel("tempature:", this);
+    label_humidity  = new QLabel("humidity:", this);
+    label_co2       = new QLabel("CO2:", this);
+    label_light     = new QLabel("light:", this);
+        
+
+
+    lineEdit_tempature  = new QLineEdit(this);
+    lineEdit_humidity   = new QLineEdit(this);
+    lineEdit_co2        = new QLineEdit(this);
+    lineEdit_light      = new QLineEdit(this);
+    lineEdit_tempature->setText("25'C");
+    lineEdit_humidity->setText("60%");
+    lineEdit_co2->setText("400ppm");
+    lineEdit_light->setText("500lux");
+
 
     // 网格布局
     QGridLayout *layout = new QGridLayout;              
     layout->setSpacing(10);     //  设置控件之间的间隔
     //网格不同坐标添加不同的组件
-    layout->addWidget(pauseBtn, 0, 0);
-    layout->addWidget(playBtn,  0, 1);
-    layout->addWidget(photoBtn, 1, 0);
-    layout->addWidget(startBtn, 2, 0);
-    layout->addWidget(stopBtn,  2, 1);
+    layout->addWidget(label_tempature,      0, 0);
+    layout->addWidget(lineEdit_tempature,   0, 1);
+    layout->addWidget(label_humidity,      0, 2);
+    layout->addWidget(lineEdit_humidity,    0, 3);
 
-    ui->widgetPTZ->setLayout(layout);
+    layout->addWidget(label_co2,      1, 0);
+    layout->addWidget(lineEdit_co2,   1, 1);
+    layout->addWidget(label_light,      1, 2);
+    layout->addWidget(lineEdit_light,    1, 3);
+
+    ui->widgetTop->setLayout(layout);
 }
 
 
@@ -345,14 +429,33 @@ void MainWindow::on_photoBtn_clicked()
     }
 }
 
+void MainWindow::on_led1btn_clicked()
+{
+    client->sendData("led1");
+}
+
+void MainWindow::on_led2btn_clicked()
+{
+    client->sendData("led2");
+}
+
+void MainWindow::on_led3btn_clicked()
+{
+    client->sendData("led3");
+}
+
+
+
 void MainWindow::on_startBtn_clicked()
 {
-    emit recordSignal(1);
+    // emit recordSignal(1);
+    client->connectToServer("192.168.1.211", 8888);
 }
 
 void MainWindow::on_stopBtn_clicked()
 {
-    emit recordSignal(0);
+    // emit recordSignal(0);
+    client->disconnectFromServer();
 }
 
 

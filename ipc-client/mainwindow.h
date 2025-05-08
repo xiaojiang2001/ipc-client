@@ -9,6 +9,9 @@
 #include <QImage>
 #include <QPaintEvent>
 #include <QPushButton>
+#include <QLineEdit>
+#include <QLabel>
+#include "tcpclient.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,7 +24,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    int camcaeWay;                      // 显示路数1 4 9 16
 private:
     Ui::MainWindow *ui;
 
@@ -30,6 +33,7 @@ private:
 
     void init_gridView();       // 初始化gridView
     void init_control_btn();    // 初始化控制按钮
+    void init_data_lable();     // 初始化数据标签
     bool m_pause_flag;          // 暂停标志
 
     // 保存图片
@@ -40,12 +44,13 @@ private:
     //保存视频队列
     QQueue<QImage> saveQue;
 
-    int camcaeWay;                      // 显示路数1 4 9 16
+
     int showViewNum;                    // 显示的视图数量
 
     // 在某个特定的窗口上绘制图像
     void paintImage(QPainter &painter, QWidget* widget, QImage &img);
 
+    TcpClient *client;
 
 
     QWidget *widgetView1;
@@ -63,7 +68,23 @@ private:
     QPushButton *photoBtn;      // 拍照按钮
     QPushButton *startBtn;      // 录屏按钮
     QPushButton *stopBtn;       // 结束录屏按钮
-            
+    QPushButton *led1btn;
+    QPushButton *led2btn;
+    QPushButton *led3btn;
+
+    // 显示标签
+    QLabel *label_co2;
+    QLabel *label_tempature;
+    QLabel *label_humidity;
+    QLabel *label_light;    
+    QLineEdit *lineEdit_co2;
+    QLineEdit *lineEdit_tempature;
+    QLineEdit *lineEdit_humidity;
+    QLineEdit *lineEdit_light;
+
+
+    void processData(const QByteArray &data);
+    
 protected:
     void paintEvent(QPaintEvent *event) override;
 
@@ -81,12 +102,18 @@ private slots:
     void on_photoBtn_clicked();
     void on_startBtn_clicked();
     void on_stopBtn_clicked();
+    void on_led1btn_clicked();
+    void on_led2btn_clicked();
+    void on_led3btn_clicked();
 
     void showContextMenu(const QPoint &pos);
 
 
     void on_errorOccurred(const QString &errorMessage);
-    
+
+    void on_tcpReadyDateHadler(const QByteArray &data);
+  
+
 signals:
     void addViewNum(int index);
     void pauseSignal();
