@@ -101,10 +101,10 @@ void TcpClient::onReadyRead()
 {
     // 读取所有可用数据
     QByteArray data = socket->readAll();
-    qDebug() << "Received data size:" << data.size() << "bytes";
+    // qDebug() << "Received data size:" << data.size() << "bytes";
     
     // 处理数据并发出信号
-    processData(data);
+    // processData(data);
     emit dataReceived(data);
 }
 
@@ -113,5 +113,5 @@ void TcpClient::processData(const QByteArray &data)
     // 在这里实现你的数据处理逻辑
     // 例如：解析协议、更新UI等
     // 这个示例只是简单打印数据
-    qDebug() << "Processing data:" << data;
+    // qDebug() << "Processing data:" << data;
 }

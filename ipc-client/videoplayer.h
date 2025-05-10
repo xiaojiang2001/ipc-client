@@ -47,7 +47,7 @@ private:
 
     // QString rtspUrl = "rtsp://rtspstream:c55e63cf6d099c8a00cc7e12daed7a05@zephyr.rtsp.stream/movie";
     // QString rtspUrl = "rtsp://admin:admin123@192.168.1.63:554/mainstream";
-    QString rtspUrl = "rtsp://192.168.1.211/live/0";
+    QString rtspUrl = "rtsp://192.168.1.134/live/0";
 
     // 编码
     AVFormatContext *outFormatCtx;  // 编码器上下文

@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_pause_flag = false;
 
+
     qDebug() << "in MainWindow";
     qDebug() << "sersion: " << av_version_info();
     qDebug() << avcodec_version();
@@ -98,14 +99,42 @@ MainWindow::~MainWindow()
 
 }
 
-void MainWindow::processData(const QByteArray &data)
-{
 
-}
-
+// data = temp:27.2 humi:46.0 co2:533 light:22.7\n
 void MainWindow::on_tcpReadyDateHadler(const QByteArray &data)
 {
+    QString rawData = QString(data).trimmed();  // 转换为QString并去除首尾空格
+    qDebug() << "Received data:" << rawData;
 
+    // 按空格分割键值对
+    QStringList pairs = rawData.split(' ', QString::SkipEmptyParts);
+
+    // 解析每个键值对
+    QMap<QString, QString> envData;
+    for (const QString &pair : pairs) {
+        QStringList keyValue = pair.split(':');
+        if (keyValue.size() == 2) {
+            envData[keyValue[0]] = keyValue[1];
+        }
+    }
+
+    // 提取具体值（示例）
+    QString temp = envData.value("temp", "N/A");
+    QString humi = envData.value("humi", "N/A");
+    QString co2 = envData.value("co2", "N/A");
+    QString light = envData.value("light", "N/A");
+
+    temp += " °C";
+    humi += " %";
+    light += " lux";
+    co2 += " ppm";
+
+    // 显示到 QTextEdit
+    lineEdit_co2->setText(co2);
+    lineEdit_tempature->setText(temp);
+    lineEdit_humidity->setText(humi);
+    lineEdit_light->setText(light); 
+    // ui->textEdit->setPlainText(displayText);  // 替换显示
 }
 
 
@@ -141,6 +170,7 @@ void MainWindow::showContextMenu(const QPoint &pos)
 void MainWindow::slotGetOneImage(int idx, QImage image)
 {
     queArray[idx].push_back(image);
+    tempImage = image;
     update();
 }
 
@@ -378,10 +408,10 @@ void MainWindow::init_data_lable()
     lineEdit_humidity   = new QLineEdit(this);
     lineEdit_co2        = new QLineEdit(this);
     lineEdit_light      = new QLineEdit(this);
-    lineEdit_tempature->setText("25'C");
-    lineEdit_humidity->setText("60%");
-    lineEdit_co2->setText("400ppm");
-    lineEdit_light->setText("500lux");
+    lineEdit_tempature->setText("0 'C");
+    lineEdit_humidity->setText("0 %");
+    lineEdit_co2->setText("0 ppm");
+    lineEdit_light->setText("0 lux");
 
 
     // 网格布局
@@ -421,27 +451,30 @@ void MainWindow::on_replayBtn_clicked()
 void MainWindow::on_photoBtn_clicked()
 {
     static int i = 0;
+    QImage img;
     if(!queArray[0].empty())
-    {
-        QImage img = queArray[0].front(); 
-        QString name = "image" + QString::number(i++) + ".jpg";
-        saveImageToJPEG(img, name);
-    }
+        img = queArray[0].front();
+    else
+        img = tempImage;
+
+    QString name = "image" + QString::number(i++) + ".jpg";
+    saveImageToJPEG(img, name);
+
 }
 
 void MainWindow::on_led1btn_clicked()
 {
-    client->sendData("led1");
+    client->sendData("led1\n");
 }
 
 void MainWindow::on_led2btn_clicked()
 {
-    client->sendData("led2");
+    client->sendData("led2\n");
 }
 
 void MainWindow::on_led3btn_clicked()
 {
-    client->sendData("led3");
+    client->sendData("led3\n");
 }
 
 
@@ -449,7 +482,7 @@ void MainWindow::on_led3btn_clicked()
 void MainWindow::on_startBtn_clicked()
 {
     // emit recordSignal(1);
-    client->connectToServer("192.168.1.211", 8888);
+    client->connectToServer("192.168.1.134", 8888);
 }
 
 void MainWindow::on_stopBtn_clicked()

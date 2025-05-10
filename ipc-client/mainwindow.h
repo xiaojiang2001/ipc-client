@@ -47,6 +47,8 @@ private:
 
     int showViewNum;                    // 显示的视图数量
 
+    QImage tempImage;
+
     // 在某个特定的窗口上绘制图像
     void paintImage(QPainter &painter, QWidget* widget, QImage &img);
 
@@ -81,9 +83,6 @@ private:
     QLineEdit *lineEdit_tempature;
     QLineEdit *lineEdit_humidity;
     QLineEdit *lineEdit_light;
-
-
-    void processData(const QByteArray &data);
     
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -112,7 +111,6 @@ private slots:
     void on_errorOccurred(const QString &errorMessage);
 
     void on_tcpReadyDateHadler(const QByteArray &data);
-  
 
 signals:
     void addViewNum(int index);

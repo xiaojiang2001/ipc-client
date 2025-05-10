@@ -6,6 +6,8 @@
 #include <QHostAddress>
 #include <QTimer>
 
+
+
 class TcpClient : public QObject
 {
     Q_OBJECT
