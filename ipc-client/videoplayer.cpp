@@ -127,6 +127,9 @@ int VideoPlayer::encodeFrame(AVFrame *frame)
 
 
     // 发送帧到编码器
+    pFrameRGB->linesize[0] = frame->width * 3;
+    pFrameRGB->linesize[1] = 0;
+    pFrameRGB->linesize[2] = 0;
     ret = avcodec_send_frame(outCodecCtx, frame);
     if (ret < 0) {
         qDebug() << "Error sending a frame for encoding";
@@ -343,6 +346,7 @@ void VideoPlayer::decode(const AVPacket &packet)
 
         // 转换为 RGB 格式
         sws_scale(img_convert_ctx, (const uint8_t* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameRGB->data, pFrameRGB->linesize);
+        
         
         // 确保 AVFrame 的属性已正确设置
         pFrameRGB->format = AV_PIX_FMT_RGB24;
