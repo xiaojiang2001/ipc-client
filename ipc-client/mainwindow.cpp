@@ -408,10 +408,10 @@ void MainWindow::init_data_lable()
     lineEdit_humidity   = new QLineEdit(this);
     lineEdit_co2        = new QLineEdit(this);
     lineEdit_light      = new QLineEdit(this);
-    lineEdit_tempature->setText("0 'C");
-    lineEdit_humidity->setText("0 %");
-    lineEdit_co2->setText("0 ppm");
-    lineEdit_light->setText("0 lux");
+    lineEdit_tempature->setText("26.0 'C");
+    lineEdit_humidity->setText("47.5 %");
+    lineEdit_co2->setText("350 ppm");
+    lineEdit_light->setText("10.9 lux");
 
 
     // 网格布局
