@@ -28,12 +28,20 @@ public:
 private:
     Ui::MainWindow *ui;
 
+
+    QWidget *centralWidget;
+    QWidget *widget1;
+    QWidget *widget2;
+    QWidget *widget3;
+    QWidget *widgetView;
+    QWidget *widgetPTZ;
     // 播放器
     VideoPlayer *mplayer;       
 
     void init_gridView();       // 初始化gridView
-    void init_control_btn();    // 初始化控制按钮
+    void init_ptz_btn();    // 初始化控制按钮
     void init_data_lable();     // 初始化数据标签
+
     bool m_pause_flag;          // 暂停标志
 
     // 保存图片
@@ -68,11 +76,13 @@ private:
     QPushButton *pauseBtn;      // 暂停按钮
     QPushButton *playBtn;       // 播放按钮
     QPushButton *photoBtn;      // 拍照按钮
-    QPushButton *startBtn;      // 录屏按钮
-    QPushButton *stopBtn;       // 结束录屏按钮
-    QPushButton *led1btn;
-    QPushButton *led2btn;
-    QPushButton *led3btn;
+    QPushButton *okBtn;         // 确认按钮
+    QPushButton *ptzUpBtn;      // ptzUp
+    QPushButton *ptzDownBtn;    // ptzDown
+    QPushButton *ptzLeftBtn;    // ptzLeft
+    QPushButton *ptzRightBtn;   // ptzRight
+
+
 
     // 显示标签
     QLabel *label_co2;
