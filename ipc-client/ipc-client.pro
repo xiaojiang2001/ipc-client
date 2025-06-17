@@ -16,18 +16,38 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    \
+    controller/viewController.cpp \
+    view/applicationView.cpp \
+    view/ptzView.cpp \
+    view/radioBtnView.cpp \
+    view/videoEventView.cpp \
+    view/videoGridView.cpp \
     main.cpp \
     mainwindow.cpp \
     tcpclient.cpp \
     videoplayer.cpp
 
 HEADERS += \
+    \
+    controller/viewController.h \
+    singleton.h \
+    view/applicationView.h \
     mainwindow.h \
+    view/ptzView.h \
+    view/radioBtnView.h \
     tcpclient.h \
-    videoplayer.h
+    view/videoEventView.h \
+    view/videoGridView.h \
+    videoplayer.h \
+    widgetPool.h
 
 FORMS += \
     mainwindow.ui
+
+INCLUDEPATH +=  \
+   view/
+
 
 #ffmpeg lib
 INCLUDEPATH += $$PWD/ffmpeg/include

@@ -12,6 +12,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include "tcpclient.h"
+#include "applicationView.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,14 +28,10 @@ public:
     int camcaeWay;                      // 显示路数1 4 9 16
 private:
     Ui::MainWindow *ui;
+    ApplicationView *applicationView;
 
 
-    QWidget *centralWidget;
-    QWidget *widget1;
-    QWidget *widget2;
-    QWidget *widget3;
-    QWidget *widgetView;
-    QWidget *widgetPTZ;
+
     // 播放器
     VideoPlayer *mplayer;       
 
@@ -72,15 +69,7 @@ private:
     QVector<QWidget*> widgetView16Array;
     
 
-    // control_btn
-    QPushButton *pauseBtn;      // 暂停按钮
-    QPushButton *playBtn;       // 播放按钮
-    QPushButton *photoBtn;      // 拍照按钮
-    QPushButton *okBtn;         // 确认按钮
-    QPushButton *ptzUpBtn;      // ptzUp
-    QPushButton *ptzDownBtn;    // ptzDown
-    QPushButton *ptzLeftBtn;    // ptzLeft
-    QPushButton *ptzRightBtn;   // ptzRight
+
 
 
 

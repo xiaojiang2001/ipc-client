@@ -15,86 +15,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     this->resize(1200,800);
 
-    // 创建一个中心部件
-    centralWidget = new QWidget(this);
-    this->setCentralWidget(centralWidget);
-
-    // 创建垂直布局
-    QVBoxLayout *mainLayout = new QVBoxLayout(centralWidget);
-
-    // 通用的边框样式
-    QString borderStyle = "border: 2px solid blue; border-radius: 5px; padding: 5px;";
-    // QString borderStyle = "";
-
-    // 创建多个 widget 容器并添加到垂直布局中
-    widget1 = new QWidget();
-    widget2 = new QWidget();
-    widget3 = new QWidget();
-
-
-    widget1->setStyleSheet(borderStyle);
-    // widget2->setStyleSheet(borderStyle);
-    // widget3->setStyleSheet(borderStyle);
-
-    mainLayout->addWidget(widget1);
-    mainLayout->addWidget(widget2);   
-    mainLayout->addWidget(widget3);
-
-    // 一次性设置三个widget的比例为10:25:1
-    mainLayout->setStretch(0, 10);
-    mainLayout->setStretch(1, 25);
-    mainLayout->setStretch(2, 2);
-    
-    // 设置布局的间距
-    mainLayout->setSpacing(10);     // 间隔
-    mainLayout->setContentsMargins(10, 10, 10, 10);     //左 上 右 下
-
-
-    // RadioBtn
-    // 为widget1创建水平布局
-    QHBoxLayout *radioBtnLayout = new QHBoxLayout(widget3);
-
-    // 创建和添加Label
-    QLabel *label = new QLabel("view grid");
-    radioBtnLayout->addWidget(label);
-    // 创建RadioButton组
-    QButtonGroup *buttonGroup = new QButtonGroup(this);
-    // 创建4个RadioButton并添加到布局
-    for(int i = 1; i <= 4; i++) {
-        QRadioButton *radio = new QRadioButton(QString("%1").arg(i*i));
-        buttonGroup->addButton(radio);
-        radioBtnLayout->addWidget(radio);
-
-        if(i == 1)
-            radio->setChecked(true);  // 设置第一个按钮为选中状态
-    }
-
-    // 添加弹簧
-    radioBtnLayout->addStretch();
-    
-    // 设置布局的间距
-    radioBtnLayout->setSpacing(10);
-    mainLayout->addWidget(widget3);
-
-
-
-    // 为widget2创建水平布局
-    QHBoxLayout *viewLayout = new QHBoxLayout(widget2);
-    // 创建两个子widget
-    widgetView = new QWidget();
-    widgetPTZ = new QWidget();
-    widgetView->setStyleSheet(borderStyle);
-    
-    // 添加到水平布局中，并设置比例为4:1
-    viewLayout->addWidget(widgetView, 4);   // 占4份
-    viewLayout->addWidget(widgetPTZ, 1);    // 占1份
-
-    // 设置布局的间距
-    viewLayout->setSpacing(10);
-    viewLayout->setContentsMargins(5, 5, 5, 5);
-
-    // init_data_lable();
-    init_ptz_btn();
+    applicationView = new ApplicationView(this);
+    setCentralWidget(applicationView);
 
 /*
     ui->setupUi(this);
@@ -174,15 +96,7 @@ MainWindow::~MainWindow()
     delete widgetView9;
     delete widgetView16;
 
-    delete pauseBtn;
-    delete playBtn;
-    delete photoBtn;
 
-    delete okBtn;         
-    delete ptzUpBtn;      
-    delete ptzDownBtn;    
-    delete ptzLeftBtn;    
-    delete ptzRightBtn;
 }
 
 
@@ -435,43 +349,7 @@ void MainWindow::init_gridView()
     widgetView16->hide();
 }
 
-void MainWindow::init_ptz_btn()
-{
-    pauseBtn  = new QPushButton("pause",this);
-    playBtn = new QPushButton("play", this);
-    photoBtn  = new QPushButton("photo",this);
-    okBtn  = new QPushButton("ok",this);
-    ptzUpBtn = new QPushButton("up",this);
-    ptzDownBtn = new QPushButton("down",this);
-    ptzLeftBtn = new QPushButton("left",this);
-    ptzRightBtn = new QPushButton("right",this);
 
-    //设置最小值、跳转按钮大小
-    pauseBtn->setMinimumSize(50,35);
-    playBtn->setMinimumSize(50,35);
-    photoBtn->setMinimumSize(50,35);
-    okBtn->setMinimumSize(50,35);
-    ptzUpBtn->setMinimumSize(50,35);  
-    ptzDownBtn->setMinimumSize(50,35); 
-    ptzLeftBtn->setMinimumSize(50,35);
-    ptzRightBtn->setMinimumSize(50,35);
-
-
-    // 网格布局
-    QGridLayout *ptzLayout = new QGridLayout;              
-    ptzLayout->setSpacing(5);     //  设置控件之间的间隔
-    //网格不同坐标添加不同的组件
-    ptzLayout->addWidget(pauseBtn, 0, 0);
-    ptzLayout->addWidget(playBtn,  0, 1);
-    ptzLayout->addWidget(photoBtn, 1, 0);
-    ptzLayout->addWidget(okBtn, 1, 1);
-    ptzLayout->addWidget(ptzUpBtn, 2, 0);
-    ptzLayout->addWidget(ptzDownBtn, 2, 1);
-    ptzLayout->addWidget(ptzLeftBtn, 3, 0);
-    ptzLayout->addWidget(ptzRightBtn, 3, 1);
-
-    widgetPTZ->setLayout(ptzLayout);
-}
 
 
 
@@ -509,7 +387,7 @@ void MainWindow::init_data_lable()
     layout->addWidget(label_light,      1, 2);
     layout->addWidget(lineEdit_light,    1, 3);
 
-    widget1->setLayout(layout);
+    // widget1->setLayout(layout);
 }
 
 
@@ -604,7 +482,6 @@ void MainWindow::saveImageToJPEG(QImage image, QString name)
                                  tr("Image saved successfully to %1.").arg(fileName));
     }
 }
-
 
 void MainWindow::on_radioBtn1_clicked()
 {
