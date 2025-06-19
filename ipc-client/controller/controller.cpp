@@ -1,4 +1,4 @@
-#include "viewController.h"
+#include "controller.h"
 #include <QDebug>
 #include <QTimer>
 #include "radioBtnView.h"
@@ -27,15 +27,33 @@ void Controller::initialize()
 
 void Controller::initConnections()
 {
+    // 确保视图和模型都已设置
+    if (!m_view || !m_model) {
+        qWarning() << "视图或模型未设置，无法初始化连接";
+        return;
+    }   
+    
+
+    // 连接视图和控制器之间的信号和槽 view to controller
     connect(m_view->getRadioBtnView(), &RadioBtnView::radioBtnClicked, this, &Controller::handleRadioBtnClicked);
     connect(m_view->getPTZView(), &PTZView::ptzOperationRequested, this, &Controller::handlePTZOperation);
     connect(m_view->getVideoEventView(), &VideoEventView::VideoEventOperationRequested, this, &Controller::handleVideoEventOperation);
+
+
+
+    // 连接模型和视图之间的信号和槽
+
+
+    // 连接模型和视图之间的信号和槽 controller to view
+    connect(this, &Controller::videoGridViewUpdated, m_view->getVideoGridView(), &VideoGridView::handlerGridViewChanged);
+    
 }
 
 // 处理radio按钮点击事件
 void Controller::handleRadioBtnClicked(int grid)
 {
-    qDebug() << "Radio button clicked with grid value:" << grid;
+    // qDebug() << "Radio button clicked with grid value:" << grid;
+    emit videoGridViewUpdated(grid);  // 发出视频网格更新信号
 }
 
 

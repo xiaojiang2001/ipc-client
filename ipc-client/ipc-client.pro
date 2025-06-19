@@ -17,7 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     \
-    controller/viewController.cpp \
+    controller/controller.cpp \
     model.cpp \
     view/applicationView.cpp \
     view/ptzView.cpp \
@@ -31,7 +31,7 @@ SOURCES += \
 
 HEADERS += \
     \
-    controller/viewController.h \
+    controller/controller.h \
     model.h \
     singleton.h \
     view/applicationView.h \
@@ -44,8 +44,6 @@ HEADERS += \
     videoplayer.h \
     widgetPool.h
 
-FORMS += \
-    mainwindow.ui
 
 INCLUDEPATH +=  \
    view/

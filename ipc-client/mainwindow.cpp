@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // model(new Model(this)),
     // view(new ApplicationView(this))
 {
-    this->resize(1200,800);
+    this->resize(1200,900);
     
     initialize();
     
@@ -103,7 +103,6 @@ void MainWindow::initialize()
 
 MainWindow::~MainWindow()
 {
-    delete ui;
     delete mplayer;
 
     // QVector<QWidget*> widgetView4Array;
@@ -286,6 +285,7 @@ void MainWindow::paintImage(QPainter &painter, QWidget* widget, QImage &img)
 
 void MainWindow::init_gridView()
 {
+ /*
     QHBoxLayout* layout = new QHBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
     ui->widgetView->setLayout(layout);
@@ -371,6 +371,7 @@ void MainWindow::init_gridView()
     // 连接信号到槽
     connect(widgetView16, &QWidget::customContextMenuRequested, this, &MainWindow::showContextMenu);
     widgetView16->hide();
+   */
 }
 
 

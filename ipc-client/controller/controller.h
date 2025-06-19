@@ -19,6 +19,7 @@ public:
 
 
 signals:
+    void videoGridViewUpdated(int grid);                // 视频网格更新信号
 
 public slots:
     void handleRadioBtnClicked(int grid);               // 处理radio按钮点击事件

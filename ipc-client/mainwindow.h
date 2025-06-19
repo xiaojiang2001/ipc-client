@@ -12,14 +12,11 @@
 #include <QLineEdit>
 #include <QLabel>
 #include "tcpclient.h"
-#include "view/applicationView.h"
+#include "applicationView.h"
 #include "model.h"
 #include "singleton.h"
-#include "controller/viewController.h"
+#include "controller/controller.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -30,12 +27,9 @@ public:
     ~MainWindow();
     int camcaeWay;                      // 显示路数1 4 9 16
 private:
-    Ui::MainWindow *ui;
     Model *model;    // 指向模型对象的指针
     ApplicationView *view;
     Controller *controller; // 控制器对象
-
-
 
 
     // 播放器

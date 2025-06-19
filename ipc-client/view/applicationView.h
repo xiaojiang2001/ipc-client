@@ -7,6 +7,7 @@
 #include "radioBtnView.h"
 #include "ptzView.h"
 #include "videoEventView.h"
+#include "videoGridView.h"
 
 class ApplicationView : public QWidget
 {
@@ -16,20 +17,20 @@ public:
     ~ApplicationView();
 
     QWidget *getTopWidget()  { return topWidget; }
-    QWidget *getVideoGridWidget()  { return videoGridWidget; }
+    VideoGridView *getVideoGridView()  { return videoGridWidget; }
     PTZView *getPTZView()  { return ptzWidget; }
     VideoEventView *getVideoEventView()  { return videoEventView; }
     RadioBtnView *getRadioBtnView()  { return radioBtnWidget; }
 
 private:
+    void setupUI();
+    void setupConnections();
+
     QWidget *topWidget;
-    QWidget *videoGridWidget;
+    VideoGridView *videoGridWidget;
     PTZView *ptzWidget;
     VideoEventView *videoEventView;
     RadioBtnView *radioBtnWidget;
-
-
-    void init_ptz_btn();
 
 signals:
 
