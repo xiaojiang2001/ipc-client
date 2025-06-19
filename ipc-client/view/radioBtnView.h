@@ -18,7 +18,7 @@ public:
     ~RadioBtnView();
 
 signals:
-    void radioBtnClicked(int grid); // 信号，当单选按钮被点击时发出
+    void radioBtnClicked(int grid);     // 信号，当单选按钮被点击时发出
 
 
 private:
@@ -27,7 +27,8 @@ private:
 
     void initRadioButtons();
 
-
+private slots:
+    void onButtonGroupClicked(int id);  // 处理按钮组的点击
 
 
 };

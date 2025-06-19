@@ -10,15 +10,26 @@
 #include <QMessageBox>
 #include  <QButtonGroup>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
-// , ui(new Ui::MainWindow)
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent)
+    // model(new Model(this)),
+    // view(new ApplicationView(this))
 {
     this->resize(1200,800);
+    
+    initialize();
+    
+    model = new Model(this);
+    view = new ApplicationView(this);
 
-    applicationView = new ApplicationView(this);
-    setCentralWidget(applicationView);
-
-/*
+    setCentralWidget(view);
+    
+    controller = Singleton<Controller>::getInstance();
+    controller->setView(view);
+    controller->setModel(model);
+    controller->initialize();
+   /*
     ui->setupUi(this);
 
 
@@ -75,6 +86,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 */
 
 }
+
+void MainWindow::initialize()
+{
+    // 在这里进行初始化，例如：
+    // setupUi();
+    // setupModel();
+    // setupView();
+    // setupController();
+
+    // 设置视图和控制器之间的连接等
+    // 例如：connect(someSignal, this, &MainWindow::someSlot);
+}
+
+
+
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -95,8 +121,6 @@ MainWindow::~MainWindow()
     delete widgetView4;
     delete widgetView9;
     delete widgetView16;
-
-
 }
 
 

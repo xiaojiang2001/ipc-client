@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     \
     controller/viewController.cpp \
+    model.cpp \
     view/applicationView.cpp \
     view/ptzView.cpp \
     view/radioBtnView.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
 HEADERS += \
     \
     controller/viewController.h \
+    model.h \
     singleton.h \
     view/applicationView.h \
     mainwindow.h \

@@ -2,8 +2,18 @@
 #include <QHBoxLayout>
 VideoEventView::VideoEventView(QWidget *parent) : QWidget(parent)
 {
-    pauseBtn  = new QPushButton("pause",this);
-    playBtn = new QPushButton("play", this);
+    initUI();
+    initConnections();
+}
+
+VideoEventView::~VideoEventView()
+{
+    // 析构函数中不需要手动删除按钮，Qt会自动管理子控件的内存
+}
+
+void VideoEventView::initUI()
+{    pauseBtn  = new QPushButton("pause",this);
+    playBtn = new QPushButton("player", this);
     photoBtn  = new QPushButton("photo",this);
     
     //设置最小值、跳转按钮大小
@@ -21,4 +31,23 @@ VideoEventView::VideoEventView(QWidget *parent) : QWidget(parent)
     // 设置布局的间距
     videoEventLayout->setContentsMargins(5, 5, 5, 5); // 左 上 右 下
     videoEventLayout->setSpacing(10); // 设置控件之间的间隔
+
 }
+
+// 连接信号和槽函数
+void VideoEventView::initConnections()
+{
+    // 连接按钮点击信号到统一的槽函数
+    connect(pauseBtn, &QPushButton::clicked, this, [=]() {
+        emit VideoEventOperationRequested(VIDEO_PAUSE);
+    });
+
+    connect(playBtn, &QPushButton::clicked, this, [=]() {
+        emit VideoEventOperationRequested(VIDEO_PLAY);
+    });
+
+    connect(photoBtn, &QPushButton::clicked, this, [=]() {
+        emit VideoEventOperationRequested(VIDEO_PHOTO);
+    });
+}
+

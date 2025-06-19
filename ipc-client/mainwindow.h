@@ -12,7 +12,10 @@
 #include <QLineEdit>
 #include <QLabel>
 #include "tcpclient.h"
-#include "applicationView.h"
+#include "view/applicationView.h"
+#include "model.h"
+#include "singleton.h"
+#include "controller/viewController.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,7 +31,10 @@ public:
     int camcaeWay;                      // 显示路数1 4 9 16
 private:
     Ui::MainWindow *ui;
-    ApplicationView *applicationView;
+    Model *model;    // 指向模型对象的指针
+    ApplicationView *view;
+    Controller *controller; // 控制器对象
+
 
 
 
@@ -69,10 +75,6 @@ private:
     QVector<QWidget*> widgetView16Array;
     
 
-
-
-
-
     // 显示标签
     QLabel *label_co2;
     QLabel *label_tempature;
@@ -87,6 +89,10 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private slots:
+    void initialize();
+
+
+
     void slotGetOneImage(int idx, QImage image);
 
     void on_radioBtn1_clicked();

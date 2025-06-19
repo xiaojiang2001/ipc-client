@@ -1,22 +1,30 @@
 #include "ptzView.h"
 #include <QGridLayout>
+#include <QDebug>
 
 PTZView::PTZView(QWidget *parent) : QWidget(parent)
 {
+    initUI();
+    initConnections();
+}
 
+PTZView::~PTZView()
+{
 
+}
+
+void PTZView::initUI()
+{
     okBtn  = new QPushButton("ok",this);
     ptzUpBtn = new QPushButton("up",this);
     ptzDownBtn = new QPushButton("down",this);
     ptzLeftBtn = new QPushButton("left",this);
     ptzRightBtn = new QPushButton("right",this);
-
     okBtn->setMinimumSize(50,35);
     ptzUpBtn->setMinimumSize(50,35);
     ptzDownBtn->setMinimumSize(50,35);
     ptzLeftBtn->setMinimumSize(50,35);
     ptzRightBtn->setMinimumSize(50,35);
-
 
     // 网格布局
     QGridLayout *ptzLayout = new QGridLayout(this);
@@ -27,14 +35,29 @@ PTZView::PTZView(QWidget *parent) : QWidget(parent)
     ptzLayout->addWidget(ptzDownBtn, 2, 1);
     ptzLayout->addWidget(ptzLeftBtn, 1, 0);
     ptzLayout->addWidget(ptzRightBtn, 1, 2);
-    // ptzLayout->setColumnStretch(0, 1); // 设置列的伸缩因子
-    // ptzLayout->setColumnStretch(1, 2); // 设置列的伸缩因子
-    // ptzLayout->setColumnStretch(2, 1); // 设置列的伸缩因子
-    // ptzLayout->setRowStretch(0, 1);    // 设置行的伸缩因子
-
 }
 
-PTZView::~PTZView()
+void PTZView::initConnections()
 {
+    // 如何让 PTZView窗口发出信号
+    // 连接按钮点击信号到统一的槽函数
+    connect(ptzUpBtn, &QPushButton::clicked, this, [=]() {
+        emit ptzOperationRequested(PTZ_UP);
+    });
 
+    connect(ptzDownBtn, &QPushButton::clicked, this, [=]() {
+        emit ptzOperationRequested(PTZ_DOWN);
+    });
+
+    connect(ptzLeftBtn, &QPushButton::clicked, this, [=]() {
+        emit ptzOperationRequested(PTZ_LEFT);
+    });
+
+    connect(ptzRightBtn, &QPushButton::clicked, this, [=]() {
+        emit ptzOperationRequested(PTZ_RIGHT);
+    });
+
+    connect(okBtn, &QPushButton::clicked, this, [=]() {
+        emit ptzOperationRequested(PTZ_OK);
+    });
 }

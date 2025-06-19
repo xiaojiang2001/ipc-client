@@ -2,6 +2,7 @@
 #define VIDEOGRIDVIEW_H
 
 #include <QWidget>
+#include "widgetPool.h"
 
 class VideoGridView : public QWidget
 {
@@ -10,6 +11,8 @@ public:
     explicit VideoGridView(QWidget *parent = nullptr);
 
 signals:
+
+
 
 };
 

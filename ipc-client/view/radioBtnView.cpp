@@ -4,12 +4,19 @@
 RadioBtnView::RadioBtnView(QWidget *parent) : QWidget(parent)
 {
     initRadioButtons();
-    // 连接信号和槽
-    connect(radioBtnGroup, QOverload<int>::of(&QButtonGroup::buttonClicked), this, [this](int id) {
-        qDebug() << "按钮ID:" << id;
-        emit radioBtnClicked(id); // 发出信号
-    });
+
+    // 连接按钮组信号到窗口槽
+    connect(radioBtnGroup, QOverload<int>::of(&QButtonGroup::buttonClicked),
+            this, &RadioBtnView::onButtonGroupClicked);
+    
 }
+
+void RadioBtnView::onButtonGroupClicked(int id)
+{
+    // 窗口转发信号
+    emit radioBtnClicked(id);
+}
+
 
 RadioBtnView::~RadioBtnView()
 {
