@@ -27,13 +27,16 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     tcpclient.cpp \
-    videoplayer.cpp
+    videoplayer.cpp \
+    view/videoWidget.cpp
 
 HEADERS += \
     \
     controller/controller.h \
+    global.h \
     model.h \
     singleton.h \
+    videoWidget.h \
     view/applicationView.h \
     mainwindow.h \
     view/ptzView.h \
@@ -42,6 +45,7 @@ HEADERS += \
     view/videoEventView.h \
     view/videoGridView.h \
     videoplayer.h \
+    view/videoWidget.h \
     widgetPool.h
 
 

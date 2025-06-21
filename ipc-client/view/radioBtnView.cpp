@@ -42,7 +42,7 @@ void RadioBtnView::initRadioButtons()
         QRadioButton *radioBtn = new QRadioButton(QString("%1").arg(i*i), this);
         radioBtnGroup->addButton(radioBtn, i * i); // 设置按钮ID
         radioBtnLayout->addWidget(radioBtn);
-        if(i == 4)
+        if(i == INIT_GRID)
             radioBtn->setChecked(true);  // 设置第一个按钮为选中状态
     }
     // 添加弹簧

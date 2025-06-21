@@ -4,6 +4,13 @@
 #include <QWidget>
 #include "widgetPool.h"
 #include <QGridLayout>
+#include "global.h"
+#include "videoWidget.h"
+#include <QPushButton>
+#include <QLabel>
+#include <QString>
+#include <QPainter>
+#include <QPaintEvent>
 
 class VideoGridView : public QWidget
 {
@@ -13,6 +20,8 @@ public:
     ~VideoGridView();
 
     void switchDisplayMode(int mode);                               // 切换显示模式
+
+    
 signals:
 
 
@@ -25,12 +34,11 @@ private:
 
     // 你可以在这里定义一个窗口对象池来管理视频网格中的窗口
 
-    widgetPool<QWidget> *videoGridViewPool; // 假设每个视频网格都是QWidget类型
+    widgetPool<VideoWidget> *videoGridViewPool; // 假设每个视频网格都是VideoWidget类型
 
     // // 其他私有成员函数和变量可以在这里定义
     void initUI();          // 初始化UI
     void initConnections(); // 初始化信号和槽连接       
-    void updateVideoGrid(); // 更新视频网格显示
 
     QGridLayout *gridViewLayout; // 网格布局
     int gridRows;        // 网格行数
@@ -39,6 +47,12 @@ private:
     int gridMargin;      // 网格边距
 
     void resetLayout(int newRows, int newColumns);   // 重置布局
+
+    // bool isMaximized;
+    // VideoWidget* maximizedWidget;
+
+private slots:
+    void onWidgetDoubleClicked(VideoWidget* widget);
 };
 
 #endif // VIDEOGRIDVIEW_H

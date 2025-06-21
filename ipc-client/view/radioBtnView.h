@@ -9,6 +9,7 @@
 #include <QRadioButton>
 #include <QLabel>
 #include <QButtonGroup>
+#include "global.h"
 
 class RadioBtnView : public QWidget
 {
