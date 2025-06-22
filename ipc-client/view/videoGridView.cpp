@@ -9,8 +9,6 @@ VideoGridView::VideoGridView(QWidget *parent) : QWidget(parent)
     initUI();               // 初始化UI
     initConnections();      // 初始化信号和槽连接
 
-//    isMaximized = false;
-//    maximizedWidget = nullptr;
 }
 
 // 析构函数
@@ -19,34 +17,13 @@ VideoGridView::~VideoGridView()
     delete videoGridViewPool; // 释放窗口对象池
 }
 
-// 初始化UI
-void VideoGridView::initUI()
-{
-   gridRows = INIT_GRID;        // 网格行数
-   gridColumns = INIT_GRID;     // 网格列数
-   gridSpacing = 5;             // 网格间距
-   gridMargin = 5;              // 网格边距
-
-    gridViewLayout = new QGridLayout(this);
-    setLayout(gridViewLayout); // 设置当前窗口的布局为网格布局
-
-
-
-    gridViewLayout->setSpacing(gridSpacing);     // 设置控件之间的间隔
-    gridViewLayout->setContentsMargins(gridMargin, gridMargin, gridMargin, gridMargin); // 设置网格布局的边距
-
-    // 创建一个窗口对象池，用于管理视频网格中的窗口
-    videoGridViewPool = new widgetPool<VideoWidget>(16, this);
-    switchDisplayMode(INIT_GRID * INIT_GRID); // 初始化时使用4分屏模式
-}
-
+// signal and slots
 void VideoGridView::initConnections()
 {
 
 }
 
-
-
+/*****************************public slots******************************************/
 // 处理显示模式改变的信号槽函数
 void VideoGridView::handlerGridViewChanged(int mode)
 {
@@ -54,7 +31,20 @@ void VideoGridView::handlerGridViewChanged(int mode)
     switchDisplayMode(mode); // 切换显示模式
 }
 
+void VideoGridView::updateVideo(int idx, QImage image)
+{
+    // 假设idx和网格顺序一致
+    // qDebug() << "---------------------------receive image-----------------------------";
+    int count = gridViewLayout->count();
+    if (idx >= 0 && idx < count) {
+        VideoWidget* widget = qobject_cast<VideoWidget*>(gridViewLayout->itemAt(idx)->widget());
+        if (widget) {
+            widget->setImage(image);
+        }
+    }
+}
 
+/********************************public function***************************************/
 // 切换显示模式
 void VideoGridView::switchDisplayMode(int mode) {
     int rows = 0, cols = 0;
@@ -68,6 +58,36 @@ void VideoGridView::switchDisplayMode(int mode) {
     resetLayout(rows, cols);
 }
 
+
+/*****************************private slots and functions******************************************/
+// 双击 新增槽函数
+void VideoGridView::onWidgetDoubleClicked(VideoWidget* widget)
+{
+    if( gridViewLayout->count() < 4)
+        return;
+
+    static bool isMaximized = false;
+    static VideoWidget* maximizedWidget = nullptr;
+
+
+    if (!isMaximized) {
+        // 第一次双击，放大
+        for (int i = 0; i < gridViewLayout->count(); ++i) {
+            QWidget* w = gridViewLayout->itemAt(i)->widget();
+            if (w) w->setVisible(w == widget);
+        }
+        maximizedWidget = widget;
+        isMaximized = true;
+    } else {
+        // 再次双击，恢复所有窗口
+        for (int i = 0; i < gridViewLayout->count(); ++i) {
+            QWidget* w = gridViewLayout->itemAt(i)->widget();
+            if (w) w->setVisible(true);
+        }
+        maximizedWidget = nullptr;
+        isMaximized = false;
+    }
+}
 
 void VideoGridView::resetLayout(int newRows, int newColumns)
 {
@@ -102,7 +122,7 @@ void VideoGridView::resetLayout(int newRows, int newColumns)
             if (widget) {
                 gridViewLayout->addWidget(widget, row, col);
                 connect(widget, &VideoWidget::doubleClicked, this, &VideoGridView::onWidgetDoubleClicked);
-                 widget->setDisplayText(QString("窗口%1").arg(++index)); // 设置内容
+                // widget->setDisplayText(QString("窗口%1").arg(++index)); // 设置内容
             }
             else {
                 qDebug() << "acquire failed!";
@@ -114,40 +134,24 @@ void VideoGridView::resetLayout(int newRows, int newColumns)
     update();
 }
 
-// 双击 新增槽函数
-void VideoGridView::onWidgetDoubleClicked(VideoWidget* widget)
+/*****************************private slots and functions about UI******************************************/
+// 初始化UI
+void VideoGridView::initUI()
 {
-    if( gridViewLayout->count() < 4)
-        return;
+   gridRows = INIT_GRID;        // 网格行数
+   gridColumns = INIT_GRID;     // 网格列数
+   gridSpacing = 5;             // 网格间距
+   gridMargin = 5;              // 网格边距
 
-    static bool isMaximized = false;
-    static VideoWidget* maximizedWidget = nullptr;
+    gridViewLayout = new QGridLayout(this);
+    setLayout(gridViewLayout); // 设置当前窗口的布局为网格布局
 
 
-    if (!isMaximized) {
-        // 第一次双击，放大
-        for (int i = 0; i < gridViewLayout->count(); ++i) {
-            QWidget* w = gridViewLayout->itemAt(i)->widget();
-            if (w) w->setVisible(w == widget);
-        }
-        maximizedWidget = widget;
-        isMaximized = true;
-    } else {
-        // 再次双击，恢复所有窗口
-        for (int i = 0; i < gridViewLayout->count(); ++i) {
-            QWidget* w = gridViewLayout->itemAt(i)->widget();
-            if (w) w->setVisible(true);
-        }
-        maximizedWidget = nullptr;
-        isMaximized = false;
-    }
 
-    // qDebug() << "VideoGridView: Widget double-clicked, switching display mode.";
+    gridViewLayout->setSpacing(gridSpacing);     // 设置控件之间的间隔
+    gridViewLayout->setContentsMargins(gridMargin, gridMargin, gridMargin, gridMargin); // 设置网格布局的边距
 
-    // // 简单实现：全屏显示该widget，其它隐藏
-    //  for (int i = 0; i < gridViewLayout->count(); ++i) {
-    //      QWidget* w = gridViewLayout->itemAt(i)->widget();
-    //      if (w) w->setVisible(w == widget);
-    //  }
-    // 你也可以切换布局为1x1，或弹窗显示
+    // 创建一个窗口对象池，用于管理视频网格中的窗口
+    videoGridViewPool = new widgetPool<VideoWidget>(16, this);
+    switchDisplayMode(INIT_GRID * INIT_GRID); // 初始化时使用4分屏模式
 }

@@ -1,5 +1,6 @@
 #ifndef VIDEOPLAYER_H
 #define VIDEOPLAYER_H
+
 // ffmpeg 头文件
 extern "C"{
 #include <libavcodec/avcodec.h>
@@ -16,7 +17,7 @@ extern "C"{
 
 class VideoPlayer : public QThread
 {
-    Q_OBJECT    //宏，使程序可以使用信号与槽机制；
+    Q_OBJECT
 public:
     VideoPlayer();
     ~VideoPlayer();
@@ -45,9 +46,9 @@ private:
     int videoStream;                // 视频流索引
     SwsContext *img_convert_ctx ;   // 视频帧转换器
 
-    // QString rtspUrl = "rtsp://rtspstream:c55e63cf6d099c8a00cc7e12daed7a05@zephyr.rtsp.stream/movie";
+    // QString rtspUrl = "rtsp://stream.strba.sk:1935/strba/VYHLAD_JAZERO.stream";
     // QString rtspUrl = "rtsp://admin:admin123@192.168.1.63:554/mainstream";
-    QString rtspUrl = "rtsp://192.168.1.134/live/0";
+    QString rtspUrl = "rtsp://192.168.1.153/live/0";
 
     // 编码
     AVFormatContext *outFormatCtx;  // 编码器上下文
@@ -55,6 +56,7 @@ private:
     AVStream *outStream;            // 编码器流
     AVPacket outPacket;             // 编码器包
     AVCodec *outCodec;              // 编码器
+
     int initOutput(const char *outFilename);
     int encodeFrame(AVFrame *frame);
     void finishOutput();
@@ -62,7 +64,7 @@ private:
 
 signals:
     void errorOccurred(const QString &errorMessage);
-    void sendImage(int idx, QImage image);  //没获取到一帧图像 就发送此信号
+    void sendImage(int idx, QImage image);  //获取到一帧图像 就发送此信号
 
 public slots:
     void on_addViewNum_slot(int index);

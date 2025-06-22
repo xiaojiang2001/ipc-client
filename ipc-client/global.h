@@ -2,7 +2,7 @@
 #define GLOBAL_H
 
 
-#define INIT_GRID 4
+#define INIT_GRID 1
 
 
 #endif // GLOBAL_H

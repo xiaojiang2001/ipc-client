@@ -11,6 +11,7 @@
 #include <QString>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QImage>
 
 class VideoGridView : public QWidget
 {
@@ -21,13 +22,13 @@ public:
 
     void switchDisplayMode(int mode);                               // 切换显示模式
 
-    
 signals:
 
 
 public slots:
     // 这里可以添加槽函数，例如处理视频网格的更新等
     void handlerGridViewChanged(int mode); // 显示模式改变信号
+    void updateVideo(int idx, QImage image);    //
 
 private:
     // 这里可以添加信号，例如视频网格的更新信号等
@@ -47,10 +48,6 @@ private:
     int gridMargin;      // 网格边距
 
     void resetLayout(int newRows, int newColumns);   // 重置布局
-
-    // bool isMaximized;
-    // VideoWidget* maximizedWidget;
-
 private slots:
     void onWidgetDoubleClicked(VideoWidget* widget);
 };

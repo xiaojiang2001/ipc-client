@@ -18,7 +18,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     \
     controller/controller.cpp \
-    model.cpp \
     view/applicationView.cpp \
     view/ptzView.cpp \
     view/radioBtnView.cpp \
@@ -27,14 +26,13 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     tcpclient.cpp \
-    videoplayer.cpp \
-    view/videoWidget.cpp
+    view/videoWidget.cpp    \
+    model/videoPlayer.cpp
 
 HEADERS += \
     \
     controller/controller.h \
     global.h \
-    model.h \
     singleton.h \
     videoWidget.h \
     view/applicationView.h \
@@ -44,9 +42,9 @@ HEADERS += \
     tcpclient.h \
     view/videoEventView.h \
     view/videoGridView.h \
-    videoplayer.h \
     view/videoWidget.h \
-    widgetPool.h
+    widgetPool.h    \
+    model/videoPlayer.h
 
 
 INCLUDEPATH +=  \

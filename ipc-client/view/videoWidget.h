@@ -15,6 +15,8 @@ public:
 
     void setDisplayText(const QString& text);
 
+     void setImage(const QImage& img);
+
 signals:
     void doubleClicked(VideoWidget*);   // Signal emitted when the widget is double-clicked
 
@@ -24,6 +26,7 @@ protected:
 
 private:
     QString m_displayText;
+    QImage m_image;
 };
 
 #endif // VIDEOWIDGET_H

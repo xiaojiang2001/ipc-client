@@ -2,8 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-#include "videoplayer.h"
 #include <QQueue>
 #include <QVector>
 #include <QImage>
@@ -13,10 +11,9 @@
 #include <QLabel>
 #include "tcpclient.h"
 #include "applicationView.h"
-#include "model.h"
 #include "singleton.h"
 #include "controller/controller.h"
-
+#include "model/videoPlayer.h"
 
 class MainWindow : public QMainWindow
 {
@@ -27,17 +24,16 @@ public:
     ~MainWindow();
     int camcaeWay;                      // 显示路数1 4 9 16
 private:
-    Model *model;    // 指向模型对象的指针
+    VideoPlayer *model;    // 指向模型对象的指针
+    VideoPlayer *m_videoPlayer;
     ApplicationView *view;
     Controller *controller; // 控制器对象
 
 
     // 播放器
-    VideoPlayer *mplayer;       
+    // VideoPlayer *mplayer;
 
     void init_gridView();       // 初始化gridView
-    void init_ptz_btn();    // 初始化控制按钮
-    void init_data_lable();     // 初始化数据标签
 
     bool m_pause_flag;          // 暂停标志
 

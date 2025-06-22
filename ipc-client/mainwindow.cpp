@@ -18,8 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->resize(1200,900);
     
     initialize();
-    
-    model = new Model(this);
+
+    model = new VideoPlayer();
     view = new ApplicationView(this);
 
     setCentralWidget(view);
@@ -66,9 +66,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(photoBtn,   &QPushButton::clicked, this, &MainWindow::on_photoBtn_clicked);
     connect(startBtn,   &QPushButton::clicked, this, &MainWindow::on_startBtn_clicked);
     connect(stopBtn,    &QPushButton::clicked, this, &MainWindow::on_stopBtn_clicked);
-    connect(led1btn,    &QPushButton::clicked, this, &MainWindow::on_led1btn_clicked);
-    connect(led2btn,    &QPushButton::clicked, this, &MainWindow::on_led2btn_clicked);
-    connect(led3btn,    &QPushButton::clicked, this, &MainWindow::on_led3btn_clicked);
     
     // 向播放器发送信号
     connect(this, &MainWindow::addViewNum,  mplayer,  &VideoPlayer::on_addViewNum_slot);
@@ -102,7 +99,7 @@ void MainWindow::initialize()
 
 MainWindow::~MainWindow()
 {
-    delete mplayer;
+    // delete mplayer;
 
     // QVector<QWidget*> widgetView4Array;
     for (auto item : widgetView4Array) {
@@ -168,25 +165,25 @@ void MainWindow::on_errorOccurred(const QString &errorMessage)
 // 槽函数实现
 void MainWindow::showContextMenu(const QPoint &pos)
 {
-    QMenu contextMenu(tr("Context menu"), this);
-    QAction *action = contextMenu.addAction(tr("show"));
+//    QMenu contextMenu(tr("Context menu"), this);
+//    QAction *action = contextMenu.addAction(tr("show"));
 
-    // 显示菜单
-    QAction *selectedAction = contextMenu.exec(widgetView1->mapToGlobal(pos));
+//    // 显示菜单
+//    QAction *selectedAction = contextMenu.exec(widgetView1->mapToGlobal(pos));
 
-    // 处理选择的动作
-    if (selectedAction == action) 
-    {
-        // 超出每种情况的上届
-        if(camcaeWay == 1 || camcaeWay == 4 && showViewNum >= 4 || camcaeWay == 9 && showViewNum >= 9 || camcaeWay == 16 && showViewNum >= 16)
-            return;
-        qDebug() << "Action  selected";
-        showViewNum++;
-        // 创建新的播放器 并绑定接收槽函数
-        VideoPlayer *mplayer = new VideoPlayer();
-        connect(mplayer,&VideoPlayer::sendImage, this , &MainWindow::slotGetOneImage);
-        emit addViewNum(showViewNum - 1);
-    } 
+//    // 处理选择的动作
+//    if (selectedAction == action)
+//    {
+//        // 超出每种情况的上届
+//        if(camcaeWay == 1 || camcaeWay == 4 && showViewNum >= 4 || camcaeWay == 9 && showViewNum >= 9 || camcaeWay == 16 && showViewNum >= 16)
+//            return;
+//        qDebug() << "Action  selected";
+//        showViewNum++;
+//        // 创建新的播放器 并绑定接收槽函数
+//        VideoPlayer *mplayer = new VideoPlayer();
+//        connect(mplayer,&VideoPlayer::sendImage, this , &MainWindow::slotGetOneImage);
+//        emit addViewNum(showViewNum - 1);
+//    }
 }
 
 void MainWindow::slotGetOneImage(int idx, QImage image)
@@ -374,45 +371,6 @@ void MainWindow::init_gridView()
 }
 
 
-
-
-
-
-void MainWindow::init_data_lable()
-{
-    label_tempature = new QLabel("tempature:", this);
-    label_humidity  = new QLabel("humidity:", this);
-    label_co2       = new QLabel("CO2:", this);
-    label_light     = new QLabel("light:", this);
-        
-
-
-    lineEdit_tempature  = new QLineEdit(this);
-    lineEdit_humidity   = new QLineEdit(this);
-    lineEdit_co2        = new QLineEdit(this);
-    lineEdit_light      = new QLineEdit(this);
-    lineEdit_tempature->setText("26.0 'C");
-    lineEdit_humidity->setText("47.5 %");
-    lineEdit_co2->setText("350 ppm");
-    lineEdit_light->setText("10.9 lux");
-
-
-    // 网格布局
-    QGridLayout *layout = new QGridLayout;              
-    layout->setSpacing(10);     //  设置控件之间的间隔
-    //网格不同坐标添加不同的组件
-    layout->addWidget(label_tempature,      0, 0);
-    layout->addWidget(lineEdit_tempature,   0, 1);
-    layout->addWidget(label_humidity,      0, 2);
-    layout->addWidget(lineEdit_humidity,    0, 3);
-
-    layout->addWidget(label_co2,      1, 0);
-    layout->addWidget(lineEdit_co2,   1, 1);
-    layout->addWidget(label_light,      1, 2);
-    layout->addWidget(lineEdit_light,    1, 3);
-
-    // widget1->setLayout(layout);
-}
 
 
 // 控制按钮槽函数

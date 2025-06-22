@@ -1,4 +1,4 @@
-#include "videoplayer.h"
+#include "videoPlayer.h"
 #include <QDebug>
 #include <QImage>
 #include <QPixmap>
@@ -127,9 +127,12 @@ int VideoPlayer::encodeFrame(AVFrame *frame)
 
 
     // 发送帧到编码器
-    pFrameRGB->linesize[0] = frame->width * 3;
-    pFrameRGB->linesize[1] = 0;
-    pFrameRGB->linesize[2] = 0;
+    // pFrameRGB->linesize[0] = frame->width * 3;
+    // pFrameRGB->linesize[1] = 0;
+    // pFrameRGB->linesize[2] = 0;
+
+
+    // 不要手动设置 linesize，直接用 frame 传给编码器
     ret = avcodec_send_frame(outCodecCtx, frame);
     if (ret < 0) {
         qDebug() << "Error sending a frame for encoding";

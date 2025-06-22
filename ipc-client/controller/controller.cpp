@@ -5,7 +5,7 @@
 
 Controller::Controller()
 {
-
+    
 }
 
 Controller::~Controller()
@@ -39,14 +39,15 @@ void Controller::initConnections()
     connect(m_view->getPTZView(), &PTZView::ptzOperationRequested, this, &Controller::handlePTZOperation);
     connect(m_view->getVideoEventView(), &VideoEventView::VideoEventOperationRequested, this, &Controller::handleVideoEventOperation);
 
+    // 连接模型和视图之间的信号和槽 model to controller
+    connect(m_model,&VideoPlayer::sendImage, this , &Controller::GetOneImage);
 
-
-    // 连接模型和视图之间的信号和槽
 
 
     // 连接模型和视图之间的信号和槽 controller to view
     connect(this, &Controller::videoGridViewUpdated, m_view->getVideoGridView(), &VideoGridView::handlerGridViewChanged);
-    
+    connect(this,&Controller::GetOneImage, m_view->getVideoGridView() , &VideoGridView::updateVideo);
+
 }
 
 // 处理radio按钮点击事件

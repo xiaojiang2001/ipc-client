@@ -18,17 +18,20 @@ void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
     QWidget::mouseDoubleClickEvent(event);
 }
 
-
-void VideoWidget::paintEvent(QPaintEvent *)
+void VideoWidget::setImage(const QImage& img)
 {
-    QPainter painter(this);
-    painter.fillRect(rect(), QColor(100, 180, 255)); // 填充背景色
-    painter.setPen(Qt::black);
-    painter.drawText(rect(), Qt::AlignCenter, m_displayText); // 显示内容
+    m_image = img;
+    update();
 }
 
-void VideoWidget::setDisplayText(const QString& text)
+void VideoWidget::paintEvent(QPaintEvent *event)
 {
-    m_displayText = text;
-    update();
+    QPainter painter(this);
+    if (!m_image.isNull()) {
+        painter.drawImage(rect(), m_image); // 拉伸填充
+    } else {
+        painter.fillRect(rect(), QColor(100, 180, 255));
+        painter.setPen(Qt::black);
+        painter.drawText(rect(), Qt::AlignCenter, m_displayText);
+    }
 }
