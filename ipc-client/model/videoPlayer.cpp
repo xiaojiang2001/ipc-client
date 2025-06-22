@@ -22,10 +22,10 @@ VideoPlayer::VideoPlayer()
         return;
     }
 
-    if(initOutput("video.mp4") < 0) {
-        emit errorOccurred(tr("initOutput error."));
-        return;
-    }
+//    if(initOutput("video.mp4") < 0) {
+//        emit errorOccurred(tr("initOutput error."));
+//        return;
+//    }
 
     threadIndex = 0;
     qDebug() << "threadIndex: " << threadIndex;
@@ -238,7 +238,7 @@ void VideoPlayer::run()
     // 编码剩余帧
     // encodeFrame(nullptr);
     qDebug() << "Ending Decoding Video ..............\n";
-    finishOutput();
+    // ();
     clean();
 }
 
@@ -362,7 +362,7 @@ void VideoPlayer::decode(const AVPacket &packet)
         emit sendImage(threadIndex, image);
 
         // 编码帧
-        encodeFrame(pFrameRGB);
+        // encodeFrame(pFrameRGB);
     }
 }
 int VideoPlayer::initEncoderContext()

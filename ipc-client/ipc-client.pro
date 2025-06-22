@@ -18,6 +18,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     \
     controller/controller.cpp \
+    model/videoDecoder.cpp \
+    model/videoEncoder.cpp \
+    model/videoEventController.cpp \
     view/applicationView.cpp \
     view/ptzView.cpp \
     view/radioBtnView.cpp \
@@ -33,6 +36,9 @@ HEADERS += \
     \
     controller/controller.h \
     global.h \
+    model/videoDecoder.h \
+    model/videoEncoder.h \
+    model/videoEventController.h \
     singleton.h \
     videoWidget.h \
     view/applicationView.h \

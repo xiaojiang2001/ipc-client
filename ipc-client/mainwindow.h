@@ -13,6 +13,7 @@
 #include "applicationView.h"
 #include "singleton.h"
 #include "controller/controller.h"
+#include "model/videoEventController.h"
 #include "model/videoPlayer.h"
 
 class MainWindow : public QMainWindow
@@ -24,8 +25,7 @@ public:
     ~MainWindow();
     int camcaeWay;                      // 显示路数1 4 9 16
 private:
-    VideoPlayer *model;    // 指向模型对象的指针
-    VideoPlayer *m_videoPlayer;
+    VideoEventController *model;    // 指向模型对象的指针
     ApplicationView *view;
     Controller *controller; // 控制器对象
 

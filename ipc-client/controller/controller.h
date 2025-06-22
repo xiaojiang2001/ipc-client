@@ -4,6 +4,7 @@
 #include <QObject>
 #include "singleton.h"
 #include "applicationView.h"
+#include "model/videoEventController.h"
 #include "model/videoPlayer.h"
 #include <QImage>
 
@@ -12,9 +13,8 @@ class Controller : public QObject
     Q_OBJECT
 
 public:
-
     void setView(ApplicationView* view) { m_view = view; }
-    void setModel(VideoPlayer* model) {m_model = model; }
+    void setModel(VideoEventController* model) {m_model = model; }
     void initialize();
 
 
@@ -32,7 +32,7 @@ public:
 
 private:
     ApplicationView *m_view;
-    VideoPlayer *m_model;
+    VideoEventController *m_model;
 
 
     SINGLETON(Controller)

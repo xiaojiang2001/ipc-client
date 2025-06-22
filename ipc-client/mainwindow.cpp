@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     
     initialize();
 
-    model = new VideoPlayer();
+    model = new VideoEventController();
     view = new ApplicationView(this);
 
     setCentralWidget(view);
@@ -259,10 +259,6 @@ void MainWindow::paintEvent(QPaintEvent *event)
                 }
             }
         }
-        break;
-
-        default:
-            qDebug() << "camcaeWay error";
         break;
     }
 }
